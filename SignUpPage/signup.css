@@ -1,0 +1,43 @@
+body{
+    background-color: #868686;
+    line-height: 30px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+.container{
+    width: 30%;
+    margin: auto auto;
+    margin-top: 10%;
+    position: relative;
+    background-color: black;
+    vertical-align: middle;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 25px;
+    color: #888;
+}
+.container h1{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 200;
+    font-size:  70px;
+}
+.container input{
+    font-size: 17px;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 3px;
+}
+.container input[type="submit"]{
+    background-color: #888;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    cursor: pointer;
+    margin: 10px;
+}
