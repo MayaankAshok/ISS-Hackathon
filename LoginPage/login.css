@@ -1,0 +1,47 @@
+body {
+    background: linear-gradient(to right, #b5edff,rgb(89, 115, 120));
+}
+
+.Login {
+    display: flex;
+    flex-direction: column;
+    margin-right: 40%;
+    margin-left: 40%;
+    margin-top: 100px;
+    height: 200px;
+    font-size: 1rem;
+}
+
+.Login input {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+    border-radius: 0.3rem;
+    box-shadow: 1px 1px #bc1616;
+    font-size: 1rem;
+}
+
+.login-button {
+    border-color: red;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+}
+
+.Login form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 4rem;
+}
+
+.Loginheader {
+    text-align: center;
+    font-size: 3rem;
+}
+
+.signup {
+    width: 100%;
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+}
