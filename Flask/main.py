@@ -33,31 +33,79 @@ def signup_page() -> str:
 @app.route("/ProfilePage/profile.html") 
 def profile_page() -> str: 
     user_id = request.args.get('id') 
-    (user_name, user_phone, user_email) = db.execute(f'SELECT name, phone, email FROM user WHERE id={user_id}')[0]
+    self_id = request.args.get('self_id')
+    (user_name, user_phone, user_email) = db.execute(f'SELECT name, phone, email FROM user WHERE id={user_id};')[0]
     print("Profile ", user_name, user_phone, user_email)
-    return render_template('ProfilePage/profile.html', 
-                           name = user_name,
-                           phone = user_phone,
-                           email = user_email)
-
-
-@app.route("/DashBoardPage/dashboard.html") 
-def dashboard_page() -> str: 
-    user_id = request.args.get('id')
+    print(db.execute("PRAGMA table_info(group_participant);"))
+    # Mutual Groups
+    mut_groups = db.execute(f'SELECT name FROM p_group WHERE\
+                            id IN ( SELECT g_id FROM group_participant WHERE u_id={user_id})\
+                            AND id IN ( SELECT g_id FROM group_participant WHERE u_id={user_id});')
+    # Contri'd expenses
     data1 = db.execute(f'SELECT p_group.name, group_expense.id, group_expense.date, expense_contri.amt \
                        FROM p_group INNER JOIN group_expense INNER JOIN expense_contri \
                        ON expense_contri.u_id={user_id} AND \
                             group_expense.id=expense_contri.e_id AND \
                             group_expense.g_id=p_group.id \
                         ORDER BY group_expense.date ASC; ')
+    # Paid Expenses
     data2 = db.execute(f'SELECT group_expense.id, group_expense.amt \
                        FROM group_expense \
                        WHERE group_expense.payee_id={user_id};')
+    
+    net_amount = sum([data[1] for data in data2]) - sum([data[3] for data in data1])
+
+
+    return render_template('ProfilePage/profile.html', 
+                           name = user_name,
+                           phone = user_phone,
+                           email = user_email)
+
+@app.route("/DashBoardPage/dashboard.html") 
+def dashboard_page() -> str: 
+    user_id = request.args.get('id')
+    # Contri'd expenses
+    data1 = db.execute(f'SELECT  group_expense.id, p_group.name, group_expense.date, expense_contri.amt, group_expense.name \
+                       FROM p_group INNER JOIN group_expense INNER JOIN expense_contri \
+                       ON expense_contri.u_id={user_id} AND \
+                            group_expense.id=expense_contri.e_id AND \
+                            group_expense.g_id=p_group.id \
+                        ORDER BY group_expense.date ASC; ')
+    # Paid Expenses
+    data2 = db.execute(f'SELECT group_expense.id, group_expense.amt \
+                       FROM group_expense \
+                       WHERE group_expense.payee_id={user_id};')
+    # Personal payments
     data3 = db.execute(f'SELECT user1.name, user2.name, payment.date, payment.amt\
                        FROM user user1 INNER JOIN user user2 INNER JOIN payment\
-                       ON payment.u1_id=user1_id AND payment.u2_id=user2_id\
+                       ON payment.u1_id={user_id} OR payment.u2_id={user_id}\
                        ORDER BY payment.date ASC;')
+    data1_dict = {}
+    for (id, *data) in data1:
+        data1_dict[id] = data
+    data2_dict = {}
+    for (id, *data) in data2:
+        data2_dict[id] = data
 
+    records = []
+    for id, data in data1_dict.values():
+        record_type = 'expense'
+        record_date = data[1]
+        record_group = data[0]
+        amt = -data[2]
+        if id in data2_dict.keys():
+            amt+= data2_dict[id][0]
+        record_amt = amt
+        record_name = data[3]
+        records.append([record_type, record_date, record_name, record_group, record_amt])
+
+    for (name1, name2, date, amt) in data3:
+        records.append(['payment', date, name1, name2, amt])
+    
+    records.sort(key = lambda a: a[1], reverse= True)
+    records = records[:15]
+
+    return render_template("/DashboardPage/dashboard.html", records = records)
 
 # API endpoints
 
