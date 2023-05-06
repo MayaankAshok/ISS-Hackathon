@@ -1,4 +1,4 @@
-fetch('src/Navbar/navbar.html')
+fetch('../Navbar/navbar.html')
 .then(res => res.text())
 .then(text => {
     let oldelem = document.querySelector("script#replace_with_navbar");
@@ -7,12 +7,6 @@ fetch('src/Navbar/navbar.html')
     newelem.innerHTML = text;
     var items = newelem.getElementsByClassName('navbar')[0].getElementsByClassName('menu-item');
     for (var i = 0 ; i < items.length; i++ ){
-        
-        if (items[i].innerHTML == pageName){
-            // console.log(item.innerHTML)
-
-            items[i].innerHTML = "<u>" + pageName + '</u>';
-        }
         items[i].addEventListener('mouseover', (e)=>{
             e.currentTarget.style.color = 'rgb(234, 122, 11)';
             e.currentTarget.style.backgroundImage  = 'radial-gradient(ellipse at 50% 50%, rgba(236, 231, 185, 0.308), rgba(200, 186, 31, 0) 75%)';
