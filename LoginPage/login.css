@@ -1,15 +1,25 @@
 body {
-    background: linear-gradient(to right, #b5edff,rgb(89, 115, 120));
+    background-color: black;
+}
+
+.top {
+    font-size: 4rem;
+    text-align: center;
+    width: 100%;
+    padding-top: 3rem;
+    color: white;
 }
 
 .Login {
     display: flex;
     flex-direction: column;
-    margin-right: 40%;
-    margin-left: 40%;
-    margin-top: 100px;
+    margin-right: 35%;
+    margin-left: 35%;
+    padding: 5%;
+    margin-top: 3rem;
     height: 200px;
     font-size: 1rem;
+    background: linear-gradient(to right, #b5edff,rgb(89, 115, 120));
 }
 
 .Login input {
