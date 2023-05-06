@@ -8,4 +8,4 @@ Team 62: <br>
 
 ## Usage Instructions
 run `python Flask/main.py` from root directory
-Go to `http://http://127.0.0.1:5000/` on browser
+Go to `http://127.0.0.1:5000/` on browser
