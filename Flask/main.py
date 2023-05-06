@@ -14,15 +14,19 @@ db = DBclass("Flask/database.db")
 app = Flask(__name__, template_folder="../") 
 @app.route("/") 
 def root() -> str: 
-    return render_template('SignupPage/signup.html')
+    return render_template('SignUpPage/signup.html')
+
+@app.route('/<path:path>')
+def send_report(path):
+    return send_from_directory('../', path) 
 
 @app.route("/LoginPage/login.html") 
 def login_page() -> str: 
     return render_template('LoginPage/login.html')
 
-@app.route("/SignupPage/signup.html") 
+@app.route("/SignUpPage/signup.html") 
 def signup_page() -> str: 
-    return render_template('SignupPage/signup.html')
+    return render_template('SignUpPage/signup.html')
 
 
 @app.route("/user_signup", methods = ["POST"])
