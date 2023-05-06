@@ -4,3 +4,7 @@ Team 62: <br>
 -Harshvardhan Rana<br>
 -Prakhar Singhal<br>
 ## Website
+
+
+## Usage Instructions
+run `python Flask/main.py` from root directory
