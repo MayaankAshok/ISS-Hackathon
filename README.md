@@ -1,8 +1,7 @@
 # ISS-Hackathon
-~~~
-**##Team**
+
+**##Team**\n
 -Mayank Ashok
 -Harshvardhan Rana
 -Prakhar Singhal
 ## Website
-~~~
