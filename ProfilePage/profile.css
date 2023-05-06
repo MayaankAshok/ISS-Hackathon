@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+body{
+    background-color: #5f5e5e;
+}
+.profile-data{
+    position: relative;
+    padding: 5em;
+    display: flex;
+}
+.profile-image{
+    flex: auto;
+}
+.profile-image img{
+    width: 20em;
+    border-radius: 50%;
+}
+.data{
+    flex:50%;
+    font-size: 1.1em;
+    font-weight: 10px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: tomato;
+}
+.data-value{
+    padding: 1em;
+}
