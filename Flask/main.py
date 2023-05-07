@@ -113,34 +113,34 @@ def get_compressed_group(group_id):
     
     data_pos ={}
     data_neg = {}
-    for id, amt in data_dict.items():
+    for (id, amt) in data_dict.items():
         if amt >0:
             data_pos[id] = amt
         if amt <0:
             data_neg[id] = -amt
 
     final_data = {}
-    for id, amt in data_dict.values():
+    for id in data_dict.values():
         final_data[id] = []
     
     while True:
         if len(data_pos.keys() )==0:
             break
-        val1 = data_pos[data_pos.keys()[0]]
-        val2 = data_neg[data_neg.keys()[0]]
+        val1 = data_pos[list(data_pos.keys())[0]]
+        val2 = data_neg[list(data_neg.keys())[0]]
         if val1 < val2:
-            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val1])
-            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val1])
-            del data_pos[data_pos.keys()[0]]
+            final_data[list(data_pos.keys())[0]].append([list(data_neg.keys())[0], val1])
+            final_data[list(data_neg.keys())[0]].append([list(data_pos.keys())[0], -val1])
+            del data_pos[list(data_pos.keys())[0]]
         elif val1> val2:
-            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
-            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
-            del data_neg[data_neg.keys()[0]]
+            final_data[list(data_pos.keys())[0]].append([list(data_neg.keys())[0], val2])
+            final_data[list(data_neg.keys())[0]].append([list(data_pos.keys())[0], -val2])
+            del data_neg[list(data_neg.keys())[0]]
         else:
-            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
-            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
-            del data_neg[data_neg.keys()[0]]
-            del data_pos[data_pos.keys()[0]]
+            final_data[list(data_pos.keys())[0]].append([list(data_neg.keys())[0], val2])
+            final_data[list(data_neg.keys())[0]].append([list(data_pos.keys())[0], -val2])
+            del data_neg[list(data_neg.keys())[0]]
+            del data_pos[list(data_pos.keys())[0]]
     return final_data
 
 def get_groups(user_id):
@@ -302,10 +302,9 @@ def dashboard_page() -> str:
         data2_dict[id] = data
 
     records = []
-    for id, data in data1_dict.values():
+    for id, data in data1_dict.items():
         record_type = 'expense'
         record_date = data[1]
-        record_date = datetime.datetime.utcfromtimestamp(int(record_date)).strftime('%Y-%m-%d')
         record_group = data[0]
         amt = -data[2]
         if id in data2_dict.keys():
@@ -316,7 +315,7 @@ def dashboard_page() -> str:
 
     for (name1, name2, date, amt) in data3:
         records.append(['payment', date, name1, name2, amt])
-    
+    print(records)
     records.sort(key = lambda a: a[1], reverse= True)
     records = records[:15]
     
@@ -339,7 +338,8 @@ def dashboard_page() -> str:
 
 @app.route("/GroupPage/group.html") 
 def group_page() -> str: 
-    group_id = request.args.get('id')
+    group_id = request.args.get('groupid')
+    user_id = request.args.get('id')
     # Paid Expenses
     data1 = db.execute(f'SELECT id, name FROM user;')
     data2 = db.execute(f'SELECT payee_id, amt, name, date \
@@ -348,23 +348,35 @@ def group_page() -> str:
     # Personal payments
     data3 = db.execute(f'SELECT u1_id, u2_id, date, amt\
                        FROM payment WHERE g_id={group_id};')
+
+    groupname = db.execute(f'SELECT name FROM p_group WHERE id={group_id};')
+    print(groupname)
+    groupname = groupname[0][0]
+
     user_dict = {}
-    for id, name in data1.items():
+    for (id, name) in data1:
         user_dict[id] = name
 
+    print(data3)
+
     records = []
-    for payee_id, amt, name, date in data2:
+    for (payee_id, amt, name, date) in data2:
+        date = datetime.datetime.utcfromtimestamp(int(date)).strftime('%b %d, %Y at %H:%2m%p')
         records.append(['expense', date, user_dict[payee_id], name, amt])
 
     for (id1, id2, date, amt) in data3:
+        date = datetime.datetime.utcfromtimestamp(int(date)).strftime('%Y-%m-%d')
+        print(date)
         records.append(['payment', date, user_dict[id1], user_dict[id2], amt])
     
     records.sort(key = lambda a: a[1], reverse= True)
     records = records[:15]
 
-    remaining_debt = get_compressed_group(group_id)
-
-    return render_template("/GroupPage/group.html", records = records)
+    # remaining_debt = get_compressed_group(group_id)
+    print(records)
+    print("hello")
+    return render_template("/GroupPage/group.html", records = records, id=user_id, 
+            groupname=groupname)
 
 @app.route("/ExpenseTrackingPage/expense.html")
 def expense_page() -> str:

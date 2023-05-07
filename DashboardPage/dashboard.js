@@ -44,16 +44,16 @@ function storeGrpIDNLoad(){
     var selected = document.querySelector('#AddEventDiv input[type="radio"]:checked');
     if(selected.length==0) alert("Select atleast one group");
     else{
-        GrpID = parseInt(selected.value);
-        console.log("Selected grp: " + GrpID);
+        GrpId = parseInt(selected.value);
+        console.log("Selected grp: " + GrpId);
         ParentDiv.innerHTML='';
-        for (var i = 0; i< groups[GrpID][2].length; i++){
-            var member = groups[GrpID][2][i]
+        for (var i = 0; i< groups[GrpId][2].length; i++){
+            var member = groups[GrpId][2][i]
             ParentDiv.innerHTML += '<label for="'+ member[0]+'">'+ member[1] +'</label>'+
             '<input type="checkbox" id="'+ member[0] +'"><br>'
         }
         ParentDiv.innerHTML+= '<input type="button" value="Submit" onclick="storeContriIDNLoad()">';
-        
+        GrpID = parseInt(selected.id);
     }
     
 }
@@ -74,7 +74,7 @@ function storeContriIDNLoad(){
         console.log("ContributersID: "+ ContributersID);
         console.log("ContributersName: "+ ContributersName);
         
-        
+
         const ParentDiv = document.querySelector("#AddEventDiv");
         ParentDiv.innerHTML=`
         <button type="button" onclick="loadForm1()">Add Entry</button>
@@ -83,7 +83,6 @@ function storeContriIDNLoad(){
 
         console.log("entry recorded")
         alert("Expense Recorded in Database");
-    
         const entry= new FormData();
         entry.append("PayeeID",PayeeID);
         entry.append("Amount",amount);
@@ -134,16 +133,16 @@ function storeGrpIDNLoad2(){
     var selected = document.querySelector('#AddPaymentDiv input[type="radio"]:checked');
     if(selected.length==0) alert("Select atleast one group");
     else{
-        GrpID = parseInt(selected.value);
-        console.log("Selected grp: " + GrpID);
+        GrpId = parseInt(selected.value);
+        console.log("Selected grp: " + GrpId);
         ParentDiv.innerHTML='';
-        for (var i = 0; i< groups[GrpID][2].length; i++){
-            var member = groups[GrpID][2][i]
+        for (var i = 0; i< groups[GrpId][2].length; i++){
+            var member = groups[GrpId][2][i]
             ParentDiv.innerHTML += '<label for="'+ member[0]+'">'+ member[1] +'</label>'+
             '<input type="radio" name="_" id="'+ member[0] +'"><br>'
         }
         ParentDiv.innerHTML+= '<input type="button" value="Submit" onclick="storeDebterIDNSubmitNLoad()">';
-        
+        GrpID = selected.id;
     }
     
 }
@@ -160,7 +159,6 @@ function storeDebterIDNSubmitNLoad(){
         <button type="button" onclick="loadForm2()">Add Payment</button>
         `
         document.querySelector("#AddEventDiv").style.display = "";
-
         alert("Payment Recorded in Database");
         const entry= new FormData();
         entry.append("usr1ID",PayeeID);
