@@ -196,6 +196,7 @@ function storeDebterIDNSubmitNLoad(){
         ParentDiv.innerHTML=`
         <button type="button" onclick="loadForm2()">Add Payment</button>
         `
+        alert("Payment Recorded in Database");
         const entry= new FormData();
         entry.append("usr1ID",PayeeID);
         entry.append("usr2ID",debterID);
