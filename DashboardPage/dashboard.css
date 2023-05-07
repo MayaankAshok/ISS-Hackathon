@@ -1,78 +1,89 @@
 /* Apply a background color to the body element */
 body {
-    background-color: #f5f5f5;
-  }
-.hidden{
-    display: none;
-}  
-  /* Center the container element on the page */
-  .everything {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  /* Style the button elements */
-  button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Add a hover effect to the button elements */
-  button:hover {
-    background-color: #3e8e41;
-  }
-  
-  /* Style the form elements */
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    padding: 20px;
-    border-radius: 4px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style the input elements */
-  input {
-    padding: 8px;
-    margin: 10px;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style the submit button */
-  input[type="submit"] {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Add a hover effect to the submit button */
-  input[type="submit"]:hover {
-    background-color: #3e8e41;
-  }
-  
+  background-color: #ffe7e7;
+}
+
+/* Center the container element on the page */
+.addbuttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10vh;
+  height: 20vh;
+}
+
+/* Style the button elements */
+button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2rem;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Add a hover effect to the button elements */
+button:hover {
+  background-color: #3e8e41;
+}
+
+/* Style the form elements */
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the input elements */
+input {
+  padding: 8px;
+  margin: 10px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the submit button */
+input[type="submit"] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Add a hover effect to the submit button */
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+#AddPaymentDiv {
+margin-left: 2vw;
+margin-top: 5vh;
+}
+
+#AddEventDiv {
+margin-top: 5vh;
+}
+
+#expensegraph {
+margin-bottom: 10vh;
+}
