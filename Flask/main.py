@@ -266,7 +266,7 @@ def profile_page() -> str:
     
     common_records = get_common_records(self_id, user_id)
     common_groups = get_common_groups(self_id, user_id)
-    return render_template('ProfilePage/profile.html', 
+    return render_template('ProfilePage/profile.html', self_id = self_id,
                            name = user_name,
                            phone = user_phone,
                            email = user_email,
@@ -381,7 +381,7 @@ def group_page() -> str:
 @app.route("/ExpenseTrackingPage/expense.html")
 def expense_page() -> str:
     id = request.args.get('id')
-    events=[];
+    events=[]
     data1 = db.execute(f'SELECT p_group.name, group_expense.g_id, group_expense.amt, group_expense.date, group_expense.name \
                        FROM group_expense \
                        INNER JOIN p_group ON p_group.id = group_expense.g_id\
