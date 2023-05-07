@@ -39,10 +39,21 @@
         <div style="width: 100%;"><canvas id="expensegraph" width="100vw" height="40vh"></canvas></div>
         <script>
             var ctx = document.getElementById('expensegraph').getContext('2d');
-            debt = [3, 5, 1, 3, 7, 4, 3];
+            // debt = [3, 5, 1, 3, 7, 4, 3];
             // number of data values should match with length of labels tuple
             // can set value to null if unknown
-            credit = [2, 5, 2, 5, 4, 8, 4];
+            // credit = [2, 5, 2, 5, 4, 8, 4];
+
+            credit = [
+                {% for credit in credits %}
+                {{credit}},
+                {% endfor %}
+            ]
+            debt = [
+                {% for debit in debits %}
+                {{debit}},
+                {% endfor %}
+            ]
             expenses = []
             for (var i = 0; i < debt.length; i++) {
                 expenses[i] = [debt[i] - credit[i]];
@@ -59,7 +70,12 @@
             var chart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan 01', 'Jan 02', 'Jan 03', 'Jan 04', 'Jan 05', 'Jan 06', 'Jan 07'],
+                    // labels: ['Jan 01', 'Jan 02', 'Jan 03', 'Jan 04', 'Jan 05', 'Jan 06', 'Jan 07'],
+                    labels : [
+                        {% for date in dates %}
+                        {{date}},
+                        {% endfor %}
+                    ],
                     //keep all the dates that are in the graph in this list
                     datasets: [{
                         label: 'Debt',

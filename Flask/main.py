@@ -155,9 +155,63 @@ def get_groups(user_id):
             members.append([user_id, user_dict[user_id]])
         final_data.append([data[0], data[1], members])
 
-    # return data
+    return data
     return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
 
+def get_common_groups(user1_id, user2_id):
+    data_u = db.execute(f'SELECT id, name FROM user;')
+    user_dict = {}
+    for id, name in data_u:
+        user_dict[id] = name
+    final_data = []
+    data1 = db.execute(f"SELECT id, name from p_group \
+                      WHERE id IN (SELECT g_id FROM group_participant WHERE u_id={user1_id})\
+                       AND id IN (SELECT g_id FROM group_participant WHERE u_id={user2_id});")
+
+    return data1
+    return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
+
+
+def get_common_records(user1_id, user2_id):
+    data3 = db.execute(f'SELECT u1_id, u2_id, amt FROM payment;')
+    data3 = [data for data in data3 if user1_id in [data[0], data[1]] and user2_id in [data[0], data[1]]]
+    final_data =[]
+    for data in data3:
+        if data[0] == user1_id:
+            final_data.append([1, amt])
+        else:
+            final_data.append([-1, amt])
+    return final_data
+
+
+def get_timeline(user_id):
+    user_id = int(user_id)
+    data1 = db.execute(f'SELECT expense_contri.u_id, expense_contri.amt, group_expense.date \
+                       FROM expense_contri INNER JOIN group_expense \
+                       ON group_expense.id=expense_contri.e_id;')
+    # Paid Expenses
+    data2 = db.execute(f'SELECT payee_id, amt, date FROM group_expense;')
+    # Personal payments
+    data3 = db.execute(f'SELECT u1_id, u2_id, amt, date FROM payment;')
+    dates = list(set([data[2] for data in data1]+ [data[2] for  data in data2] + [data[3] for data in data3]))
+    credits= [0]*len(dates)
+    debits= [0]* len(dates)
+    print (data1)
+    print(data2)
+    print(data3)
+    
+    for data in data1:
+        if data[0]==user_id:
+            debits[dates.index(data[2])] += data[1]
+    for data in data2:
+        if data[0]== user_id:
+            credits[dates.index(data[2])] += data[1]
+    for data in data3:
+        if data[0]== user_id:
+            credits[dates.index(data[3])] += data[2]
+        if data[1] == user_id:
+            credits[dates.index(data[3])] += data[2]
+    return [dates, credits, debits]
 
 app = Flask(__name__, template_folder="../") 
 @app.route("/") 
@@ -208,10 +262,15 @@ def profile_page() -> str:
     
     net_amount = sum([data[1] for data in data2]) - sum([data[3] for data in data1]) + sum([data[0] for data in paym_from]) - sum([data[0] for  data in paym_to])
     
+    common_records = get_common_records(self_id, user_id)
+    common_groups = get_common_groups(self_id, user_id)
     return render_template('ProfilePage/profile.html', 
                            name = user_name,
                            phone = user_phone,
-                           email = user_email)
+                           email = user_email,
+                           groups = get_groups(self_id),
+                           common_records = common_records,
+                           common_groups = common_groups)
 
 @app.route("/DashboardPage/dashboard.html") 
 def dashboard_page() -> str: 
@@ -260,8 +319,19 @@ def dashboard_page() -> str:
     
     remaining_debt=  get_compressed()
 
+    (dates, credits, debits) = get_timeline(user_id)
 
-    return render_template("/DashboardPage/dashboard.html", records = records, groups = get_groups(user_id), payeeID = user_id)
+    print(get_timeline(user_id))
+
+    return render_template("/DashboardPage/dashboard.html", 
+                        records = records,
+                        groups = get_groups(user_id),
+                        payeeID = user_id,
+                        dates = dates,
+                        credits = credits,
+                        debits = debits
+                               )
+
 
 @app.route("/GroupsPage/groups.html") 
 def group_page() -> str: 
@@ -374,8 +444,12 @@ def add_payment():
 
 @app.route("/add_to_group", methods = ["POST"])
 def add_to_group():
-    user_id = request.form["user_id"]
-    group_id = request.form["user_id"]
+    user_phone = request.form["user_phone"]
+    group_id = request.form["group_id"]
+    data = db.execute(f'SELECT id FROM user WHERE phone="{user_phone}";')
+    if len(data==0):
+        return
+    user_id = data[0][0] 
     db.execute(f"INSERT INTO group_participant (u_id, g_id) VALUES ({user_id}, {group_id});")
     db.db.commit()
 
