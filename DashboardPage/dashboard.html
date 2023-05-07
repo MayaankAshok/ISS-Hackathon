@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="/DashboardPage/dashboard.css">
     <script>
         var groups = [
             {% for group in groups %}
@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <script id="replace_with_navbar" src="../Navbar/navbar.js"></script>
+    <script id="replace_with_navbar" src="/Navbar/navbar.js"></script>
 
     <div class="everything">
         <div id="AddEventDiv">
@@ -36,9 +36,9 @@
     </div>
 </body>
 
-<script id="replace_with_footer" src="../Footer/footer.js"></script>
+<script id="replace_with_footer" src="/Footer/footer.js"></script>
 
-<script src="../DashboardPage/dashboard.js"></script>
+<script src="/DashboardPage/dashboard.js"></script>
 
 <script>
     PayeeID = "{{ payeeID }}";
