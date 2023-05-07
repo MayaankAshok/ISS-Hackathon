@@ -8,6 +8,10 @@
         <link rel="stylesheet" href="/ExpenseTrackingPage/expense.css">
         <script>
             id = {{ id }}
+            events = {{events}}//Backend Baki
+            //events list of tuple(event)
+            //event-> (("Month",date,"year",H_time,Min_time),(content),"EventName")
+            //content->(GroupName,GroupID,amount)
         </script>
     </head>
     <body>
@@ -16,27 +20,32 @@
         <div id="AddGrp">
             <button type="button" id="Add" onclick="LoadForm()">Make a Group</button>
         </div>
+    
         <div class="everything">
+
             <div class="EventCards">
+                {% for event in events %}
                 <div class="Ecard">
                     <div class="Eheader">
-                        <span class="Edate-time">May 7, 2023 at 3:00pm</span>
+                        <span class="Edate-time">{{event[0][1]}}-{{event[0][0]}}-{{event[0][2]}} at {{event[0][3]}}:{{event[0][4]}}</span>
                     </div>
                     <div class="Econtent">
                         <div class="Esender">
-                            <form action='/GroupPage/group.html'>
-                                <button type="submit">Group Name</button>
+                            <form action='/GroupPage/group.html'> <!--add grp id iin link!-->
+                                <button type="submit">{{event[1][0]}}</button>
                             </form>
                         </div>
                         <div class="Erequest">
-                            <span class="Eamount">$50</span>
+                            <span class="Eamount">${{event[1][2]}}</span>
                         </div>
                     </div>
                     <div class="Emessage">
-                        Event Name
+                        {{event[2]}}
                     </div>
                 </div>
+                {% endfor %}
             </div>
+
             <div class="IndivisualCards">
                 <div class="card">
                     <div class="header">

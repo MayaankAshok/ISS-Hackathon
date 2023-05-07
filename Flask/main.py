@@ -381,7 +381,20 @@ def group_page() -> str:
 @app.route("/ExpenseTrackingPage/expense.html")
 def expense_page() -> str:
     id = request.args.get('id')
-    return render_template("/ExpenseTrackingPage/expense.html", id=id)
+    events=[];
+    data1 = db.execute(f'SELECT p_group.name, group_expense.g_id, group_expense.amt, group_expense.date, group_expense.name \
+                       FROM group_expense \
+                       INNER JOIN p_group ON p_group.id = group_expense.g_id\
+                       INNER JOIN group_participant ON group_participant.g_id = group_expense.g_id\
+                       WHERE group_participant.u_id={id};')
+    print(data1)
+    for data in data1:
+        time=datetime.datetime.utcfromtimestamp(int(data[3])).strftime('%m-%d-%Y-%H-%M').split('-')
+        content = (data[1],data[0],data[2])
+        events.append((time,content,data[4]))
+        print("Data: "+data);
+
+    return render_template("/ExpenseTrackingPage/expense.html", id=id,events=events)
 
 
 @app.route("/DashboardPage/dashboard1.html") 
