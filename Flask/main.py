@@ -453,14 +453,18 @@ def add_to_group():
     db.execute(f"INSERT INTO group_participant (u_id, g_id) VALUES ({user_id}, {group_id});")
     db.db.commit()
 
-# @app.route("/add_grp_db",methods=["POST"])
-#     group_name=request.form["Name"]
-#     db.execute(f"INSERT INTO p_group(name) VALUES ({group_name});")
-#     db.db.commit()
-
-# @app.route("/add_grp",methods=["POST"])
-#     def add_grp():
-
+@app.route("/add_grp",methods=["POST"])
+def add_grp():
+    group_name=request.form["GrpName"]
+    mbr_contacts = request.form['MemContact'].split(',')
+    print("Adding Group ", group_name)
+    db.execute(f'INSERT INTO p_group(name) VALUES ("{group_name}");')
+    group_id = db.execute(f'SELECT id FROM p_group WHERE name="{group_name}";')[0][0]
+    for contact in mbr_contacts:
+        user_id = db.execute(f'SELECT id FROM user WHERE phone="{contact}"' )[0][0]
+        db.execute(f"INSERT INTO group_participant (u_id, g_id) VALUES ({user_id}, {group_id});")
+    db.db.commit()
+    return "OK", 200
 
 @app.route("/get_group_participant", methods = ["POST"])
 def get_group_participant():
