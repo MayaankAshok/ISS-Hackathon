@@ -1,0 +1,22 @@
+<form>
+    <label for="group1">Group 1</label>
+    <input type="radio" id="group1" name="z" ><br>
+    <label for="group2">Group 2</label>
+    <input type="radio" id="group2" name="z" ><br>
+    <label for="group3">Group 3</label>
+    <input type="radio" id="group3" name="z" ><br>
+    <label for="_">Indivisual</label>
+    <input type="radio"id="_" name="z"><br>
+    <input type="submit" value="Submit">
+  </form>
+  
+  <script>
+    var GrpID;
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var selected = document.querySelector('input[type="radio"]:checked');
+      var GrpID = selected.id=="_" ? null:selected.id;
+    })
+    console.log("Selected value: " + GrpID);;
+  </script>
+  
