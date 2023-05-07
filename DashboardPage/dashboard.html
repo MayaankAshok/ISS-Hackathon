@@ -8,16 +8,17 @@
     <title>dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
     <script>
-        var groups= [
+        var groups = [
             {% for group in groups %}
-            [{{group[0]}}, "{{group[1]}}", [
-                {% for member in group[2] %}
-                [{{member[0]}} , "{{member[1]}}"], 
+            [{{ group.0 }}, "{{ group.1|escapejs }}", [
+                {% for member in group.2 %}
+                [{{ member.0 }}, "{{ member.1|escapejs }}"], 
                 {% endfor %}
-            ],],
+            ]],
             {% endfor %}
-        ]
+        ];
     </script>
+    
 </head>
 
 <body>
