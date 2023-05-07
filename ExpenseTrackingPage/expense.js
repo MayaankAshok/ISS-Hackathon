@@ -56,7 +56,7 @@ function storeMemNumNSubmit(){
         // entry.append("MemNum",Num);
         entry.append("MemContact",MemNumber);
     
-        fetch('/add_expense',{
+        fetch('/add_grp',{
             method:'POST',
             body: entry
         })

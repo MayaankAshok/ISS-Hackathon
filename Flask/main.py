@@ -149,14 +149,14 @@ def get_groups(user_id):
     data1 = db.execute(f"SELECT id, name from p_group \
                       WHERE id IN (SELECT g_id FROM group_participant WHERE u_id={user_id});")
     for data in data1:
-        data2 = db.execute(f"SELECT u_id FROM group_participant WHERE g_id={data[0]}")
+        data_2 = db.execute(f"SELECT u_id FROM group_participant WHERE g_id={data[0]}")
         members= []
         for (user_id,) in data_2:
             members.append([user_id, user_dict[user_id]])
         final_data.append([data[0], data[1], members])
-
-    return data
-    return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
+        return data
+    # return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
+    return ();
 
 def get_common_groups(user1_id, user2_id):
     data_u = db.execute(f'SELECT id, name FROM user;')
@@ -381,13 +381,13 @@ def user_signup():
     users = db.execute(f'SELECT * FROM user WHERE phone="{user_phone}";')
     if len(users):
         print("User Already Exists")
-        return render_template("SignupPage/signup.html")
+        return render_template("SignUpPage/signup.html")
     print("Signing up User", user_name, user_phone, user_email, user_passw )
     db.execute(f'INSERT INTO user (name, phone, email, passw) VALUES ( "{user_name}", "{user_phone}", "{user_email}", "{user_passw}");')
     db.db.commit()
     user = db.execute(f'SELECT * FROM user WHERE phone="{user_phone}";')[0]
 
-    return redirect(f"ProfilePage/profile.html?id={user[0]}")
+    return redirect(f"DashboardPage/dashboard.html?id={user[0]}")
 
 @app.route("/user_login", methods = ["POST"])
 def user_login():
@@ -453,6 +453,13 @@ def add_to_group():
     db.execute(f"INSERT INTO group_participant (u_id, g_id) VALUES ({user_id}, {group_id});")
     db.db.commit()
 
+# @app.route("/add_grp_db",methods=["POST"])
+#     group_name=request.form["Name"]
+#     db.execute(f"INSERT INTO p_group(name) VALUES ({group_name});")
+#     db.db.commit()
+
+# @app.route("/add_grp",methods=["POST"])
+#     def add_grp():
 
 
 @app.route("/get_group_participant", methods = ["POST"])
