@@ -8,21 +8,26 @@
     <title>dashboard</title>
     <link rel="stylesheet" href="/GroupPage/group.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js" type="text/javascript"></script>
-
+    <script>
+        PayeeID = "{{ payeeID }}";
+    </script>
 </head>
 
 <body>
+    <script id="replace_with_navbar" src="/Navbar/navbar.js"></script>
     <div class="everything">
+        <div class="groupname">Group Name</div>
         <div class="showexpenses">
             <div class="eventexpenses">
-                <div class="card" class="pending">
+                <div class="card">
                     <div class="header">
                         <span class="date-time">May 7, 2023 at 3:00pm</span>
                     </div>
-                    <div class="group-name">Group Name</div>
                     <div class="content">
                         <div class="sender">
-                            <span class="sender-name">Sender's Name</span>
+                            <form action='/ProfilePage/profile.html/?id=1&self_id=2'>
+                                <button type="submit">Sender's Name</button>
+                            </form>
                         </div>
                         <div class="request">
                             <span class="request-amount">$50</span>
@@ -37,29 +42,7 @@
                     <div class="image">
                     </div>
                 </div>
-                <div class="card">
-                    <div class="header">
-                        <span class="date-time">May 7, 2023 at 3:00pm</span>
-                    </div>
-                    <div class="group-name">IIIT Hyderabad</div>
-                    <div class="content">
-                        <div class="sender">
-                            <span class="sender-name">Harshvardhan Rana</span>
-                        </div>
-                        <div class="request">
-                            <span class="request-amount" style="color: green;">$100</span>
-                        </div>
-                    </div>
-                    <div class="message">
-                        Event Name
-                    </div>
-                    <div style="float: right;">
-                        <input type="checkbox" id="checkbox">
-                    </div>
-                    <div class="image">
-                    </div>
-                </div>
-
+                
 
             </div>
             <div class="peopleexpenses">
@@ -147,8 +130,8 @@
                 </script>
             </div>
         </div>
-        <div>
-            <h1 style="color:rgb(4, 3, 3)">Debt based on Events</h1>
+        <div class="piechartdiv">
+            <h1 style="color:rgb(4, 3, 3)">Debt owed by each person</h1>
             <div style="width: 800px;"><canvas id="eventsdebt"
                     style="box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);"
                     width="500" height="400"></canvas></div>
@@ -183,5 +166,5 @@
         </div>
     </div>
 </body>
-
+<script id="replace_with_footer" src="/Footer/footer.js"></script>
 </html>

@@ -333,7 +333,7 @@ def dashboard_page() -> str:
                                )
 
 
-@app.route("/GroupsPage/groups.html") 
+@app.route("/GroupPage/group.html") 
 def group_page() -> str: 
     group_id = request.args.get('id')
     # Paid Expenses
@@ -360,7 +360,7 @@ def group_page() -> str:
 
     remaining_debt = get_compressed_group(group_id)
 
-    return render_template("/DashboardPage/dashboard.html", records = records)
+    return render_template("/GroupPage/group.html", records = records)
 
 
 @app.route("/DashboardPage/dashboard1.html") 
