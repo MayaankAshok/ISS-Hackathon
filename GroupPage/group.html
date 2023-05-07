@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="/GroupPage/group.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <div class="everything">
+        <div class="showexpenses">
+            <div class="eventexpenses">
+                <div class="card" class="pending">
+                    <div class="header">
+                        <span class="date-time">May 7, 2023 at 3:00pm</span>
+                    </div>
+                    <div class="group-name">Group Name</div>
+                    <div class="content">
+                        <div class="sender">
+                            <span class="sender-name">Sender's Name</span>
+                        </div>
+                        <div class="request">
+                            <span class="request-amount">$50</span>
+                        </div>
+                    </div>
+                    <div class="message">
+                        Event Name
+                    </div>
+                    <div style="float: right;">
+                        <input type="checkbox" id="checkbox">
+                    </div>
+                    <div class="image">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <span class="date-time">May 7, 2023 at 3:00pm</span>
+                    </div>
+                    <div class="group-name">IIIT Hyderabad</div>
+                    <div class="content">
+                        <div class="sender">
+                            <span class="sender-name">Harshvardhan Rana</span>
+                        </div>
+                        <div class="request">
+                            <span class="request-amount" style="color: green;">$100</span>
+                        </div>
+                    </div>
+                    <div class="message">
+                        Event Name
+                    </div>
+                    <div style="float: right;">
+                        <input type="checkbox" id="checkbox">
+                    </div>
+                    <div class="image">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="peopleexpenses">
+                <div style="width: 30vw; height:70vh"><canvas id="personsmoney" style="margin-top: 50px;" width="300px"
+                min-height: 300px;></canvas></div>
+                <script>
+                    var ctx3 = document.getElementById('personsmoney').getContext('2d');
+
+                    // SET DATA HERE in dat
+                    const dat = [0, 3, -4, 1, 3, 2];
+
+                    var colors = [];
+                    for (var i = 0; i < dat.length; i++) {
+                        if (dat[i] < 0) {
+                            colors[i] = "red";
+                        }
+                        else {
+                            colors[i] = "green";
+                        }
+                    }
+                    Chart.defaults.global.defaultFontSize = 30;
+                    var chart3 = new Chart(ctx3, {
+                        type: 'horizontalBar',
+                        data: {
+                            labels: ['Alice', 'Bob', 'Charlie', 'Delta', 'Elephant'],
+                            datasets: [{
+                                label: 'Credit',
+                                data: dat,
+                                backgroundColor: colors,// "#B10DC9", "#FFDC00", "#001f3f", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"]
+                                borderColor: 'purple',
+                                borderWidth: 2,
+                            }]
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            elements: {
+                                bar: {
+                                    borderWidth: 2,
+                                }
+                            },
+                            responsive: true,
+                            tooltips: {
+                                mode: 'index',
+                                intersect: false,
+                                bodyFont: {
+                                    size: 20,
+                                    family: 'vazir'
+                                }
+                            },
+                            hover: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Chart.js Horizontal Bar Chart'
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    suggestedMin: 0,
+                                    suggestedMax: 10,
+                                    ticks: {
+                                        font: {
+                                            size: 12,
+                                        }
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true
+                                }]
+                            },
+                            legend: {
+                                labels: {
+                                    // This more specific font property overrides the global property
+                                    fontColor: 'black'
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        <div>
+            <h1 style="color:rgb(4, 3, 3)">Debt based on Events</h1>
+            <div style="width: 800px;"><canvas id="eventsdebt"
+                    style="box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);"
+                    width="500" height="400"></canvas></div>
+            <script>
+                var ctx1 = document.getElementById('eventsdebt').getContext('2d');
+                var chart1 = new Chart(ctx1, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Alice', 'Bob', 'Charlie', 'Delta', 'Elephant'],
+                        //keep all the topics that are in the graph in this list
+                        datasets: [{
+                            label: 'Debt',
+                            data: [3, 5, 1, 3, 2],
+                            // number of data values should match with length of labels tuple
+                            // can set value to null if unknown
+                            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", "#7FDBFF", "#B10DC9", "#FFDC00", "#001f3f", "#39CCCC", "#01FF70", "#85144b", "#F012BE", "#3D9970", "#111111", "#AAAAAA"],
+                            borderColor: 'purple'
+                        }]
+                    },
+                    options: {
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        hover: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
