@@ -1,6 +1,6 @@
 # ISS-Hackathon
 Team 62: <br>
--Mayank Ashok<br>
+-Mayaank Ashok<br>
 -Harshvardhan Rana<br>
 -Prakhar Singhal<br>
 ## Website

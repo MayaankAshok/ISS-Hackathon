@@ -11,10 +11,140 @@ class DBclass:
         return self.cur.fetchall()
 db = DBclass("Flask/database.db")
 
+def get_compressed():
+    # Contri'd expenses
+    data1 = db.execute(f'SELECT u_id, amt FROM expense_contri;')
+    # Paid Expenses
+    data2 = db.execute(f'SELECT payee_id, amt FROM group_expense;')
+    # Personal payments
+    data3 = db.execute(f'SELECT u1_id, u2_id, amt FROM payment;')
+
+    data_dict= {}
+    for (id, amt) in data1:
+        if id in data_dict:
+            data_dict[id] -= amt
+        else:
+            data_dict[id] = -amt
+    
+    for (id, amt) in data2:
+        if id in data_dict:
+            data_dict[id] += amt
+        else :
+            data_dict[id] = amt
+
+    for (id1, id2, amt) in data3:
+        if id1 in data_dict:
+            data_dict[id1] += amt
+        else :
+            data_dict[id1] = amt
+        if id2 in data_dict:
+            data_dict[id2] -= amt
+        else :
+            data_dict[id2] = -amt
+    
+    data_pos ={}
+    data_neg = {}
+    for id, amt in data_dict.items():
+        if amt >0:
+            data_pos[id] = amt
+        if amt <0:
+            data_neg[id] = -amt
+
+    final_data = {}
+    for id, amt in data_dict.values():
+        final_data[id] = []
+    
+    while True:
+        if len(data_pos.keys() == 0):
+            break
+        val1 = data_pos[data_pos.keys()[0]]
+        val2 = data_neg[data_neg.keys()[0]]
+        if val1 < val2:
+            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val1])
+            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val1])
+            del data_pos[data_pos.keys()[0]]
+        elif val1> val2:
+            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
+            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
+            del data_neg[data_neg.keys()[0]]
+        else:
+            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
+            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
+            del data_neg[data_neg.keys()[0]]
+            del data_pos[data_pos.keys()[0]]
+    return final_data
+
+def get_compressed_group(group_id):
+    # Contri'd expenses
+    data1 = db.execute(f'SELECT u_id, amt FROM expense_contri\
+                       WHERE e_id IN (SELECT id FROM group_expense WHERE g_id={group_id});')
+    # Paid Expenses
+    data2 = db.execute(f'SELECT payee_id, amt FROM group_expense WHERE g_id={group_id};')
+    # Personal payments
+    data3 = db.execute(f'SELECT u1_id, u2_id, amt FROM payment WHERE g_id={group_id};')
+
+    data_dict= {}
+    for (id, amt) in data1:
+        if id in data_dict:
+            data_dict[id] -= amt
+        else:
+            data_dict[id] = -amt
+    
+    for (id, amt) in data2:
+        if id in data_dict:
+            data_dict[id] += amt
+        else :
+            data_dict[id] = amt
+
+    for (id1, id2, amt) in data3:
+        if id1 in data_dict:
+            data_dict[id1] += amt
+        else :
+            data_dict[id1] = amt
+        if id2 in data_dict:
+            data_dict[id2] -= amt
+        else :
+            data_dict[id2] = -amt
+    
+    data_pos ={}
+    data_neg = {}
+    for id, amt in data_dict.items():
+        if amt >0:
+            data_pos[id] = amt
+        if amt <0:
+            data_neg[id] = -amt
+
+    final_data = {}
+    for id, amt in data_dict.values():
+        final_data[id] = []
+    
+    while True:
+        if len(data_pos.keys() == 0):
+            break
+        val1 = data_pos[data_pos.keys()[0]]
+        val2 = data_neg[data_neg.keys()[0]]
+        if val1 < val2:
+            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val1])
+            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val1])
+            del data_pos[data_pos.keys()[0]]
+        elif val1> val2:
+            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
+            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
+            del data_neg[data_neg.keys()[0]]
+        else:
+            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
+            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
+            del data_neg[data_neg.keys()[0]]
+            del data_pos[data_pos.keys()[0]]
+    return final_data
+
+
+
 app = Flask(__name__, template_folder="../") 
 @app.route("/") 
 def root() -> str: 
     return render_template('SignUpPage/signup.html')
+
 
 # Default Page load
 
@@ -61,7 +191,7 @@ def profile_page() -> str:
                            phone = user_phone,
                            email = user_email)
 
-@app.route("/DashBoardPage/dashboard.html") 
+@app.route("/DashboardPage/dashboard.html") 
 def dashboard_page() -> str: 
     user_id = request.args.get('id')
     # Contri'd expenses
@@ -106,6 +236,12 @@ def dashboard_page() -> str:
     records = records[:15]
 
     return render_template("/DashboardPage/dashboard.html", records = records)
+
+@app.route("/DashboardPage/dashboard1.html") 
+def dashboard1_page() -> str: 
+    user_id = request.args.get('id')
+
+    return render_template("/DashboardPage/dashboard1.html")
 
 # API endpoints
 
@@ -175,6 +311,12 @@ def add_payment():
     db.execute(f'INSERT INTO payment (u1_id, u2_id, amt, date, g_id) VALUES ({u1_id}, {u2_id}, {total_amt}, {group_id}, {paym_date});')
     db.db.commit()
 
+@app.route("/add_to_group", methods = ["POST"])
+def add_payment():
+    user_id = request.form["user_id"]
+    group_id = request.form["user_id"]
+    db.execute(f"INSERT INTO group_participant (u_id, g_id) VALUES ({user_id}, {group_id});")
+    db.db.commit()
 
 
 if __name__ == "__main__": 
