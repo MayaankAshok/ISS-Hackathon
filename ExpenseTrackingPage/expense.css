@@ -32,6 +32,13 @@ body {
     text-align: center;
     margin-top: 20px;
   }
+  a{
+    text-align: center;
+    font-size: 2em;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+    color:#007bff;
+    font-weight: 500;
+  }
   
   form input[type="text"] {
     width: 250px;

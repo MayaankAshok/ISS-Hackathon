@@ -24,7 +24,9 @@
   align-items: center;
   margin-right: 3em;
 }
-
+.navbar-items a{
+  font-size: 1.3em;
+}
 .menu-item {
   text-decoration: none;
   color: white;

@@ -7,8 +7,9 @@
         <title>dashboard</title>
         <link rel="stylesheet" href="/ExpenseTrackingPage/expense.css">
         <script>
-            id = {{ id }}
-            events = {{events}}//Backend Baki
+            var id = {{id}};
+            console.log("success");
+            // var events = {{events}};
             //events list of tuple(event)
             //event-> (("Month",date,"year",H_time,Min_time),(content),"EventName")
             //content->(GroupName,GroupID,amount)
@@ -31,9 +32,8 @@
                     </div>
                     <div class="Econtent">
                         <div class="Esender">
-                            <form action='/GroupPage/group.html'> <!--add grp id iin link!-->
-                                <button type="submit">{{event[1][0]}}</button>
-                            </form>
+                            
+                            <a href="'/GroupPage/group.html?id={{id}}&groupid={{event[1][1]}}">{{event[1][0]}}</a>
                         </div>
                         <div class="Erequest">
                             <span class="Eamount">${{event[1][2]}}</span>

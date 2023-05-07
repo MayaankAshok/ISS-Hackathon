@@ -387,12 +387,12 @@ def expense_page() -> str:
                        INNER JOIN p_group ON p_group.id = group_expense.g_id\
                        INNER JOIN group_participant ON group_participant.g_id = group_expense.g_id\
                        WHERE group_participant.u_id={id};')
-    print(data1)
+    # print(data1)
     for data in data1:
         time=datetime.datetime.utcfromtimestamp(int(data[3])).strftime('%m-%d-%Y-%H-%M').split('-')
-        content = (data[1],data[0],data[2])
+        content = (data[0],data[1],data[2])
         events.append((time,content,data[4]))
-        print("Data: "+data);
+        # print("Data: "+data);
 
     return render_template("/ExpenseTrackingPage/expense.html", id=id,events=events)
 
