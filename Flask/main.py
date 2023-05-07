@@ -157,9 +157,8 @@ def get_groups(user_id):
         for (user_id,) in data_2:
             members.append([user_id, user_dict[user_id]])
         final_data.append([data[0], data[1], members])
-        return data
     # return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
-    return ();
+    return final_data
 
 def get_common_groups(user1_id, user2_id):
     data_u = db.execute(f'SELECT id, name FROM user;')
@@ -367,6 +366,11 @@ def group_page() -> str:
 
     return render_template("/GroupPage/group.html", records = records)
 
+@app.route("/ExpenseTrackingPage/expense.html")
+def expense_page() -> str:
+    id = request.args.get('id')
+    return render_template("/ExpenseTrackingPage/expense.html", id=id)
+
 
 @app.route("/DashboardPage/dashboard1.html") 
 def dashboard1_page() -> str: 
@@ -411,7 +415,7 @@ def user_login():
 
     user_id = users[0][0]
     currentuserid = user_id
-    return redirect(f'ProfilePage/profile.html?id={user_id}')    
+    return redirect(f'DashboardPage/dashboard.html?id={user_id}')    
 
 @app.route("/add_expense", methods = ["POST"])
 def add_expense():

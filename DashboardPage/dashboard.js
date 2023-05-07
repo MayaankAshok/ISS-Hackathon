@@ -34,7 +34,7 @@ function storeAmountNLoad() {
     ParentDiv.innerHTML = ""
     for(var i= 0; i< groups.length; i++){
         ParentDiv.innerHTML += '<label for="'+ groups[i][0] +'">'+ groups[i][1] +'</label>'+
-        '<input type="radio" id="'+ groups[i][0]+'" name="_"><br>'
+        '<input type="radio" id="'+ groups[i][0]+'" name="_" value="'+ String(i) + '"><br>'
     }
     ParentDiv.innerHTML += '<input type="button" value="Next" onclick="storeGrpIDNLoad()">'
 }
@@ -44,7 +44,7 @@ function storeGrpIDNLoad(){
     var selected = document.querySelector('#AddEventDiv input[type="radio"]:checked');
     if(selected.length==0) alert("Select atleast one group");
     else{
-        GrpID = parseInt(selected.id) -1;
+        GrpID = parseInt(selected.value);
         console.log("Selected grp: " + GrpID);
         ParentDiv.innerHTML='';
         for (var i = 0; i< groups[GrpID][2].length; i++){
@@ -124,7 +124,7 @@ function storeAmountNLoad2() {
     ParentDiv.innerHTML = ""
     for(var i= 0; i< groups.length; i++){
         ParentDiv.innerHTML += '<label for="'+ groups[i][0] +'">'+ groups[i][1] +'</label>'+
-        '<input type="radio" id="'+ groups[i][0]+'" name="_"><br>'
+        '<input type="radio" id="'+ groups[i][0]+'" name="_" value="'+String(i)+'"><br>'
     }
     ParentDiv.innerHTML += '<input type="button" value="Next" onclick="storeGrpIDNLoad2()">'
 }
@@ -134,7 +134,7 @@ function storeGrpIDNLoad2(){
     var selected = document.querySelector('#AddPaymentDiv input[type="radio"]:checked');
     if(selected.length==0) alert("Select atleast one group");
     else{
-        GrpID = parseInt(selected.id) -1;
+        GrpID = parseInt(selected.value);
         console.log("Selected grp: " + GrpID);
         ParentDiv.innerHTML='';
         for (var i = 0; i< groups[GrpID][2].length; i++){
