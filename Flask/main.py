@@ -141,7 +141,7 @@ def get_compressed_group(group_id):
 def get_groups(user_id):
     data_u = db.execute(f'SELECT id, name FROM user;')
     user_dict = {}
-    for id, name in data_u.items():
+    for id, name in data_u:
         user_dict[id] = name
     final_data = []
     data1 = db.execute(f"SELECT id, name from p_group \
@@ -375,7 +375,7 @@ def get_group_participant():
     user_id = request.args.get["group_id"]
     data1 = db.execute(f'SELECT id, name FROM user;')
     user_dict = {}
-    for id, name in data1.items():
+    for id, name in data1:
         user_dict[id] = name
 
 
