@@ -1,43 +1,62 @@
-.navbar{
-    background: #0037ff;
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    height: var(--header-height);
-    z-index: 10;
-  }
-  
-  .navbar-logo{
-    float: left;
-    padding: 8px 23px;
-    height: 65px;
-    border-radius: 100%;
-  }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1c1c1c;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  padding: 1em;
+  font-size: 1.4em;
+}
+
+.navbar-logo {
+  width: 5em;
+  margin-left: 20px;
+  border-radius: 100%;
+}
+
+.navbar-items {
+  display: flex;
+  align-items: center;
+  margin-right: 3em;
+}
+
+.menu-item {
+  text-decoration: none;
+  color: white;
+  margin: 0 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+  color: #f39c12;
+}
+
+.login-link {
+  border: 1px solid #f39c12;
+  border-radius: 20px;
+  color: #f39c12;
+  text-decoration: none;
+  padding: 5px 15px;
+  margin-left: 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-link:hover {
+  background-color: #f39c12;
+  color: white;
+}
+
+@media (max-width: 768px) {
   .navbar-items {
-    font-family: Proxima-Soft;
-    color: var(--main-color);
-    font-size: 20pt;
-    margin-right:30px ;
-    column-gap: 20px;
-    margin-top: 10px;
-    margin-bottom: 0px;
-    height: 60px;
-    width:100%;
-    top: 50%;
+      display: none;
   }
-  
-  .menu-item{
-    float: left;
-    text-decoration: none;
-    color: var(--main-color);
-    padding: 15px 25px;
-    text-align: center;
+
+  .navbar-logo {
+      margin: 20px;
   }
-  .login-link{
-    float: right;
-    text-decoration: none;
-    color: var(--main-color);
-    padding: 15px 25px;
-    text-align: center;
-  }
+}

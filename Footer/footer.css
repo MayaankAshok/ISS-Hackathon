@@ -1,53 +1,66 @@
-.footer{
-    background: rgba(4, 255, 0, 0.9);
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    height: var(--header-height);
-    z-index: 10;
-    padding: 5em;
-}
-.footer-head{
-    display: flex;
-    flex-direction: row;
-    position: relative;
-}
-.footer-text{
-    font-size: 3em;
+.footer {
+    background-color: #1c1c1c;
+    color: #dcdcdc;
+    padding: 20px;
+    font-size: 14px;
     text-align: center;
-    width: fit-content;
-    position: absolute;
-    top: 30%;
-    margin-left: 40%;
-
-}
-.footer-logo{
-    margin-left: 70%;
-    padding-bottom: 2em;
-}
-.footer-logo img{
-    border-radius: 100%;
-    width: 10em;
-}
-.footer-links{
-    height: 5em;
-}
-.page-link{
-    font-size: 2em;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    color: rgb(0, 5, 108);
-    padding: 1em;
-    float:left;
-}
-.social-media-link{
-    float: right;
-}
-.social-media-link img{
-    border-radius: 100%;
-    padding: 1em;
-    vertical-align: middle;
+    /* position: fixed; */
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .footer-head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .footer-text {
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 3em;
+  }
+  
+  .footer-logo img {
     width: 7em;
-    margin: 1em;
-    border-color: black;
-    box-sizing: border-box;
-}
+    border-radius: 50%;
+  }
+  
+  hr {
+    border-top: 1px solid #666;
+    margin: 10px 0;
+  }
+  
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 2em; */
+  }
+  
+  .page-link {
+    font-size: 1.5  em;
+    margin-right: 20px;
+    color: #dcdcdc;
+    text-decoration: none;
+  }
+  
+  .page-link:hover {
+    color: #ff9100;
+  }
+  
+  .social-media-link img {
+    width: 5em;
+    border-radius: 30%;
+    margin: 0 10px;
+  }
+  
+  .social-media-link img:hover {
+    background-color: #333;
+  }
+  
+  .social-media-link a {
+    text-decoration: none;
+  }
+  
