@@ -2,7 +2,9 @@
 body {
     background-color: #f5f5f5;
   }
-  
+.hidden{
+    display: none;
+}  
   /* Center the container element on the page */
   .everything {
     display: flex;

@@ -30,16 +30,14 @@ var amount;
 function storeAmountNLoad() {
     const ParentDiv = document.querySelector("#AddEventDiv");
     amount = document.querySelector("#AddEventDiv #amount").value;
-    // console.log("The amount entered is: " + amount);
-    ParentDiv.innerHTML=`
-    <form >
-        {% for group in groups %}
-        <label for="{{ group[0] }}">{{ group[1] }}</label>
-        <input type="radio" id="{{ group[0] }}" name="_"><br>
-        {% endfor %}
-        <input type="button" value="Next" onclick="storeGrpIDNLoad()">
-    </form>
-    `
+
+    console.log("The amount entered is: " + amount);
+    ParentDiv.innerHTML = "<form >"
+    for(var i= 0; i< groups.length; i++){
+        ParentDiv.innerHTML += '<label for="'+ groups[i][0] +'">'+ groups[i][1] +'</label>'+
+        '<input type="radio" id="'+ groups[i][0]+'" name="_"><br></br>'
+    }
+    ParentDiv.innerHTML += '<input type="button" value="Next" onclick="storeGrpIDNLoad()"></form>'
 }
 
 var GrpID;
@@ -48,17 +46,17 @@ function storeGrpIDNLoad(){
     var selected = document.querySelector('#AddEventDiv input[type="radio"]:checked');
     if(selected.length==0) alert("Select atleast one group");
     else{
-        GrpID = selected.id;
-        // console.log("Selected grp: " + GrpID);
+        GrpID = parseInt(selected.id) -1;
+        console.log("Selected grp: " + GrpID);
         ParentDiv.innerHTML=`
-        <form>
-            {% for member in groups[2] %}
-            <label for="{{ member[0] }}">{{ member[1] }}</label>
-            <input type="checkbox" id="{{ member[0] }}"><br>
-            {% endfor %}
-            <input type="button" value="Submit" onclick="storeContriIDNLoad()">
-        </form>
-        `
+        <form>`
+        for (var i = 0; i< groups[GrpID][2].length; i++){
+            var member = groups[GrpID][2][i]
+            ParentDiv.innerHTML += '<label for="'+ member[0]+'">'+ member[1] +'</label>'+
+            '<input type="checkbox" id="'+ member[0] +'"><br>'
+        }
+        ParentDiv.innerHTML+= '<input type="button" value="Submit" onclick="storeContriIDNLoad()"> </form>';
+        
     }
     
 }

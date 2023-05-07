@@ -138,6 +138,23 @@ def get_compressed_group(group_id):
             del data_pos[data_pos.keys()[0]]
     return final_data
 
+def get_groups(user_id):
+    data_u = db.execute(f'SELECT id, name FROM user;')
+    user_dict = {}
+    for id, name in data_u.items():
+        user_dict[id] = name
+    final_data = []
+    data1 = db.execute(f"SELECT id, name from p_group \
+                      WHERE id IN (SELECT g_id FROM group_participant WHERE u_id={user_id});")
+    for data in data1:
+        data2 = db.execute(f"SELECT u_id FROM group_participant WHERE g_id={data[0]}")
+        members= []
+        for (user_id,) in data_2:
+            members.append([user_id, user_dict[user_id]])
+        final_data.append([data[0], data[1], members])
+
+    # return data
+    return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
 
 
 app = Flask(__name__, template_folder="../") 
@@ -183,9 +200,13 @@ def profile_page() -> str:
                        FROM group_expense \
                        WHERE group_expense.payee_id={user_id};')
     
-    net_amount = sum([data[1] for data in data2]) - sum([data[3] for data in data1])
 
-
+    # Payments
+    paym_to = db.execute(f"SELECT amt FROM payment where u2_id={user_id}; ")
+    paym_from = db.execute(f"SELECT amt FROM payment where u1_id={user_id}; ")
+    
+    net_amount = sum([data[1] for data in data2]) - sum([data[3] for data in data1]) + sum([data[0] for data in paym_from]) - sum([data[0] for  data in paym_to])
+    
     return render_template('ProfilePage/profile.html', 
                            name = user_name,
                            phone = user_phone,
@@ -208,7 +229,8 @@ def dashboard_page() -> str:
     # Personal payments
     data3 = db.execute(f'SELECT user1.name, user2.name, payment.date, payment.amt\
                        FROM user user1 INNER JOIN user user2 INNER JOIN payment\
-                       ON payment.u1_id={user_id} OR payment.u2_id={user_id}\
+                       ON (payment.u1_id={user_id} AND user1.id={user_id})\
+                        OR (payment.u2_id={user_id} AND user2.id={user_id})\
                        ORDER BY payment.date ASC;')
     data1_dict = {}
     for (id, *data) in data1:
@@ -235,13 +257,41 @@ def dashboard_page() -> str:
     records.sort(key = lambda a: a[1], reverse= True)
     records = records[:15]
 
+    return render_template("/DashboardPage/dashboard.html", records = records, groups = get_groups(user_id))
+
+@app.route("/GroupsPage/groups.html") 
+def group_page() -> str: 
+    group_id = request.args.get('id')
+    # Paid Expenses
+    data1 = db.execute(f'SELECT id, name FROM user;')
+    data2 = db.execute(f'SELECT payee_id, amt, name, date \
+                       FROM group_expense \
+                       WHERE g_id={group_id};')
+    # Personal payments
+    data3 = db.execute(f'SELECT u1_id, u2_id, date, amt\
+                       FROM payment WHERE g_id={group_id};')
+    user_dict = {}
+    for id, name in data1.items():
+        user_dict[id] = name
+
+    records = []
+    for payee_id, amt, name, date in data2:
+        records.append(['expense', date, user_dict[payee_id], name, amt])
+
+    for (id1, id2, date, amt) in data3:
+        records.append(['payment', date, user_dict[id1], user_dict[id2], amt])
+    
+    records.sort(key = lambda a: a[1], reverse= True)
+    records = records[:15]
+
     return render_template("/DashboardPage/dashboard.html", records = records)
+
 
 @app.route("/DashboardPage/dashboard1.html") 
 def dashboard1_page() -> str: 
     user_id = request.args.get('id')
-
-    return render_template("/DashboardPage/dashboard1.html")
+    print("dashboard_1", get_group_info(user_id))
+    return render_template("/DashboardPage/dashboard1.html", groups = get_groups(user_id))
 
 # API endpoints
 
@@ -312,11 +362,21 @@ def add_payment():
     db.db.commit()
 
 @app.route("/add_to_group", methods = ["POST"])
-def add_payment():
+def add_to_group():
     user_id = request.form["user_id"]
     group_id = request.form["user_id"]
     db.execute(f"INSERT INTO group_participant (u_id, g_id) VALUES ({user_id}, {group_id});")
     db.db.commit()
+
+
+
+@app.route("/get_group_participant", methods = ["POST"])
+def get_group_participant():
+    user_id = request.args.get["group_id"]
+    data1 = db.execute(f'SELECT id, name FROM user;')
+    user_dict = {}
+    for id, name in data1.items():
+        user_dict[id] = name
 
 
 if __name__ == "__main__": 
