@@ -172,7 +172,7 @@ def get_common_groups(user1_id, user2_id):
                        AND id IN (SELECT g_id FROM group_participant WHERE u_id={user2_id});")
 
     return data1
-    return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
+    # return [[1, 'Hello', [[1,'name1'], [2,'name2']]], [2, 'World',[ [3, 'name3'], [4, 'name4']]]]
 
 
 def get_common_records(user1_id, user2_id):

@@ -1,6 +1,7 @@
 /* Apply a background color to the body element */
 body {
   background-color: #ffe7e7;
+  margin: 0;
 }
 
 /* Center the container element on the page */

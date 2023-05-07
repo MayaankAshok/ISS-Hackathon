@@ -5,7 +5,7 @@ fetch('/Footer/footer.html')
     let newelem = document.createElement("footer");
     newelem.innerHTML = text;       
     oldelem.parentNode.replaceChild(newelem,oldelem);
-    const Name = "#WebName#";
+    const Name = "We Track You Slack";
     let index = 0;
     let isTyping = false;
 

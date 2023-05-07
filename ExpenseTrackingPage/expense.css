@@ -1,7 +1,12 @@
+body {
+  background-color: #ffe7e7;
+  margin: 0;
+}
 #AddGrp {
     margin-top: 20px;
     text-align: center;
-    padding: 10em;
+    padding-top: 10em;
+    padding-bottom: 1em;
   }
   
   #Add {
@@ -54,3 +59,168 @@
     background-color: #3e8e41;
   }
   
+  .card {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    width: 50vw;
+    height: 12.5em;
+    overflow: hidden;
+    position: relative;
+    animation: cardScale 0.5s ease-in-out;
+}
+
+@keyframes cardScale {
+    0% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.card:before {
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.header {
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+.date-time {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.group-name {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sender {
+    flex-grow: 1;
+}
+
+.sender-name {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.request {
+    margin-left: 20px;
+}
+
+.request-amount {
+    color: #f44336;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.optional-message-checkbox {
+    margin-left: 10px;
+}
+.card button {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 2.3rem;
+  float: left;
+}
+/* .image {
+    Add styles for the image or video here 
+} */
+.everything {
+  padding-top: 5vh;
+  min-height: 1000px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+/* Set background color for the whole page */
+.Ecard {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #f2f2f2;
+  box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
+  width: 45em;
+  margin: 20px;
+  animation: cardScale 0.5s ease-in-out;
+  display: inline-block;
+  position: relative;
+  /* font-size: 100px; */
+}
+
+.Eheader {
+  font-weight: bold;
+  /* font-size: 5em; */
+  margin-bottom: 20px;
+}
+
+.Edate-time {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.Esender button {
+  border: none;
+  font-size: 2.5em;
+  background-color: transparent;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.Erequest {
+  margin-top: 10px;
+}
+
+.Eamount {
+  font-size: 2em;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.Emessage {
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 10px;
+}

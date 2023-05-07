@@ -13,6 +13,53 @@
         <div id="AddGrp">
             <button type="button" id="Add" onclick="LoadForm()">Make a Group</button>
         </div>
+        <div class="everything">
+            <div class="EventCards">
+                <div class="Ecard">
+                    <div class="Eheader">
+                        <span class="Edate-time">May 7, 2023 at 3:00pm</span>
+                    </div>
+                    <div class="Econtent">
+                        <div class="Esender">
+                            <form action='/GroupPage/group.html'>
+                                <button type="submit">Group Name</button>
+                            </form>
+                        </div>
+                        <div class="Erequest">
+                            <span class="Eamount">$50</span>
+                        </div>
+                    </div>
+                    <div class="Emessage">
+                        Event Name
+                    </div>
+                </div>
+            </div>
+            <div class="IndivisualCards">
+                <div class="card">
+                    <div class="header">
+                        <span class="date-time">May 7, 2023 at 3:00pm</span>
+                    </div>
+                    <div class="content">
+                        <div class="sender">
+                            <form action='/ProfilePage/profile.html/?id=1&self_id=2'>
+                                <button type="submit">Sender's Name</button>
+                            </form>
+                        </div>
+                        <div class="request">
+                            <span class="request-amount">$50</span>
+                        </div>
+                    </div>
+                    <div class="message">
+                        Event Name
+                    </div>
+                    <div style="float: right;">
+                        <input type="checkbox" id="checkbox">
+                    </div>
+                    <div class="image">
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </body>
     <script id="replace_with_footer" src="/Footer/footer.js"></script>
