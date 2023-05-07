@@ -18,7 +18,7 @@ def get_compressed():
     data2 = db.execute(f'SELECT payee_id, amt FROM group_expense;')
     # Personal payments
     data3 = db.execute(f'SELECT u1_id, u2_id, amt FROM payment;')
-
+    print(data3)
     data_dict= {}
     for (id, amt) in data1:
         if id in data_dict:
@@ -41,37 +41,39 @@ def get_compressed():
             data_dict[id2] -= amt
         else :
             data_dict[id2] = -amt
-    
+    print(data_dict)
     data_pos ={}
     data_neg = {}
-    for id, amt in data_dict.items():
+    for id, amt, in data_dict.items():
         if amt >0:
             data_pos[id] = amt
         if amt <0:
             data_neg[id] = -amt
 
     final_data = {}
-    for id, amt in data_dict.values():
+    for id, amt in data_dict.items():
         final_data[id] = []
     
     while True:
-        if len(data_pos.keys() == 0):
+        if len(data_pos.keys())==0:
             break
-        val1 = data_pos[data_pos.keys()[0]]
-        val2 = data_neg[data_neg.keys()[0]]
+        if len(data_neg.keys())==0:
+            break
+        val1 = data_pos[list(data_pos.keys())[0]]
+        val2 = data_neg[list(data_neg.keys())[0]]
         if val1 < val2:
-            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val1])
-            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val1])
-            del data_pos[data_pos.keys()[0]]
+            final_data[list(data_pos.keys())[0]].append([list(data_neg.keys())[0], val1])
+            final_data[list(data_neg.keys())[0]].append([list(data_pos.keys())[0], -val1])
+            del data_pos[list(data_pos.keys())[0]]
         elif val1> val2:
-            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
-            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
-            del data_neg[data_neg.keys()[0]]
+            final_data[list(data_pos.keys())[0]].append([list(data_neg.keys())[0], val2])
+            final_data[list(data_neg.keys())[0]].append([list(data_pos.keys())[0], -val2])
+            del data_neg[list(data_neg.keys())[0]]
         else:
-            final_data[data_pos.keys()[0]].append([data_neg.keys()[0], val2])
-            final_data[data_neg.keys()[0]].append([data_pos.keys()[0], -val2])
-            del data_neg[data_neg.keys()[0]]
-            del data_pos[data_pos.keys()[0]]
+            final_data[list(data_pos.keys())[0]].append([list(data_neg.keys())[0], val2])
+            final_data[list(data_neg.keys())[0]].append([list(data_pos.keys())[0], -val2])
+            del data_neg[list(data_neg.keys())[0]]
+            del data_pos[list(data_pos.keys())[0]]
     return final_data
 
 def get_compressed_group(group_id):
@@ -119,7 +121,7 @@ def get_compressed_group(group_id):
         final_data[id] = []
     
     while True:
-        if len(data_pos.keys() == 0):
+        if len(data_pos.keys() )==0:
             break
         val1 = data_pos[data_pos.keys()[0]]
         val2 = data_neg[data_neg.keys()[0]]
@@ -183,7 +185,6 @@ def profile_page() -> str:
     self_id = request.args.get('self_id')
     (user_name, user_phone, user_email) = db.execute(f'SELECT name, phone, email FROM user WHERE id={user_id};')[0]
     print("Profile ", user_name, user_phone, user_email)
-    print(db.execute("PRAGMA table_info(group_participant);"))
     # Mutual Groups
     mut_groups = db.execute(f'SELECT name FROM p_group WHERE\
                             id IN ( SELECT g_id FROM group_participant WHERE u_id={user_id})\
@@ -256,8 +257,11 @@ def dashboard_page() -> str:
     
     records.sort(key = lambda a: a[1], reverse= True)
     records = records[:15]
+    
+    remaining_debt=  get_compressed()
 
-    return render_template("/DashboardPage/dashboard.html", records = records, groups = get_groups(user_id))
+
+    return render_template("/DashboardPage/dashboard.html", records = records, groups = get_groups(user_id), payeeID = user_id)
 
 @app.route("/GroupsPage/groups.html") 
 def group_page() -> str: 
@@ -283,6 +287,8 @@ def group_page() -> str:
     
     records.sort(key = lambda a: a[1], reverse= True)
     records = records[:15]
+
+    remaining_debt = get_compressed_group(group_id)
 
     return render_template("/DashboardPage/dashboard.html", records = records)
 
@@ -333,33 +339,38 @@ def user_login():
 
 @app.route("/add_expense", methods = ["POST"])
 def add_expense():
-    payee_id = request.form["user_id"]
-    total_amt = request.form["user_id"]
-    contri_ids = request.form["user_id"]
-    contri_amts = request.form["user_id"]
-    exp_date = request.form["user_id"]
-    exp_name = request.form["user_id"]
-    group_id = request.form["user_id"]
+    payee_id = request.form["PayeeID"]
+    total_amt = int(request.form["Amount"])
+    contri_ids = request.form["ContriID"]
+    contri_ids = contri_ids.split(',')
+    contri_amts = [int((int(total_amt)/len(contri_ids)))] * len(contri_ids)
+    contri_amts[-1] += total_amt - sum(contri_amts)
+    exp_date = request.form["ExpDate"]
+    exp_name = request.form["ExpName"]
+    group_id = request.form["GrpID"]
 
-    db.execute(f'INSERT INTO group_expense (g_id, payee_id, amt, date, name) VALUES ({group_id}, {payee_id}, {total_amt}, {exp_date}, {exp_name});')
+    print(payee_id, total_amt, contri_ids, contri_amts, exp_date, exp_name, group_id)
+
+    db.execute(f'INSERT INTO group_expense (g_id, payee_id, amt, date, name) VALUES ({group_id}, {payee_id}, {total_amt}, {exp_date}, "{exp_name}");')
     db.db.commit()
     exp_id = db.execute(f'SELECT id FROM group_expense WHERE date={exp_date} AND g_id={group_id};')[0][0]
     
-    for i, contri_id, contri_amt in enumerate(zip(contri_ids, contri_amts)): 
-        db.execute(f'INSERT INTO expense_contri (e_id, u_id, amt) VALUES ({exp_id}, {contri_id}, {contri_amts});')
+    for i, (contri_id, contri_amt) in enumerate(zip(contri_ids, contri_amts)): 
+        db.execute(f'INSERT INTO expense_contri (e_id, u_id, amt) VALUES ({exp_id}, {contri_id}, {contri_amt});')
     db.db.commit()
     return "OK", 200
 
 @app.route("/add_payment", methods = ["POST"])
 def add_payment():
-    u1_id = request.form["user_id"]
-    u2_id = request.form["user_id"]
-    total_amt = request.form["user_id"]
-    paym_date = request.form["user_id"]
-    group_id = request.form["user_id"]
-
+    u1_id = request.form["usr1ID"]
+    u2_id = request.form["usr2ID"]
+    total_amt = request.form["amount"]
+    paym_date = request.form["PayDate"]
+    group_id = request.form["GrpID"]
+    print(u1_id, u2_id, total_amt, paym_date, group_id)
     db.execute(f'INSERT INTO payment (u1_id, u2_id, amt, date, g_id) VALUES ({u1_id}, {u2_id}, {total_amt}, {group_id}, {paym_date});')
     db.db.commit()
+    return "OK", 200
 
 @app.route("/add_to_group", methods = ["POST"])
 def add_to_group():

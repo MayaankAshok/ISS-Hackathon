@@ -165,7 +165,7 @@ function storeDebterIDNSubmitNLoad(){
         entry.append("PayDate",Math.floor(Date.now() / 1000));//UnixTimeStamp
         entry.append("GrpID",GrpID);
 
-        fetch('/add_expense',{
+        fetch('/add_payment',{
             method:'POST',
             body: entry
         })
