@@ -1,16 +1,20 @@
 body {
     background: url("https://static.vecteezy.com/system/resources/previews/005/182/612/original/green-abstract-geometric-shape-background-free-vector.jpg");
     width: 100%;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
 }
 
 .top {
     font-size: 4rem;
     text-align: center;
-    width: 100%;
-    padding-top: 3rem;
-    color: rgb(19, 16, 16);
+    height: 204px;
+    aspect-ratio: 1;
+    margin-top: 40px;
+    margin-left: calc(50% - 102px) ;
     font-weight: bold;
+    background-image: url("/ImageResources/Logo.png");
+    color: rgb(19, 16, 16);
 }
 
 .Login {
