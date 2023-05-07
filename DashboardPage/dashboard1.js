@@ -2,11 +2,25 @@
 var PayeeID;
 
 function loadForm1(){
+    const ParentDiv = document.querySelector("#AddEventDiv")
+    ParentDiv.innerHTML=`
+    <form>
+        <label for="name">Enter Expense Name:</label>
+        <input type="text" id="expName" name="amount" required><br>
+        <input type="button" value="Next" onclick="storeNameNLoad()">
+    </form>
+    `    
+}
+
+var ExpName;
+function storeNameNLoad(){
+    ExpName = document.querySelector("#AddEventDiv #expName").value;
+    // console.log("Name of Expense: "+ExpName);
     const ParentDiv = document.querySelector("#AddEventDiv");
     ParentDiv.innerHTML=`
     <form>
         <label for="amount">Enter the amount:</label>
-        <input type="number" id="amount" name="amount"><br>
+        <input type="number" id="amount" name="amount" required><br>
         <input type="button" value="Next" onclick="storeAmountNLoad()">
     </form>
     `
@@ -15,7 +29,7 @@ function loadForm1(){
 var amount;
 function storeAmountNLoad() {
     const ParentDiv = document.querySelector("#AddEventDiv");
-    amount = document.querySelector("#amount").value;
+    amount = document.querySelector("#AddEventDiv #amount").value;
     // console.log("The amount entered is: " + amount);
     ParentDiv.innerHTML=`
     <form >
@@ -23,8 +37,6 @@ function storeAmountNLoad() {
         <label for="{{ group[0] }}">{{ group[1] }}</label>
         <input type="radio" id="{{ group[0] }}" name="_"><br>
         {% endfor %}
-        <label for="null">Indivisual</label>
-        <input type="radio" id="null"name="_"><br>
         <input type="button" value="Next" onclick="storeGrpIDNLoad()">
     </form>
     `
@@ -33,45 +45,96 @@ function storeAmountNLoad() {
 var GrpID;
 function storeGrpIDNLoad(){
     const ParentDiv = document.querySelector("#AddEventDiv");
-    var selected = document.querySelector('input[type="radio"]:checked');
-    GrpID = selected.id=="null" ? null:selected.id;
-    // console.log("Selected grp: " + GrpID);
-    ParentDiv.innerHTML=`
-    <form >
-        {% for member in groups[2] %}
-        <label for="{{ member[0] }}">{{ member[1] }}</label>
-        <input type="checkbox" id="{{ member[0] }}"><br>
-        {% endfor %}
-        <input type="button" value="Submit" onclick="storePayeeIDNLoadNSubmit()">
-    </form>
-    `
+    var selected = document.querySelector('#AddEventDiv input[type="radio"]:checked');
+    if(selected.length==0) alert("Select atleast one group");
+    else{
+        GrpID = selected.id;
+        // console.log("Selected grp: " + GrpID);
+        ParentDiv.innerHTML=`
+        <form>
+            {% for member in groups[2] %}
+            <label for="{{ member[0] }}">{{ member[1] }}</label>
+            <input type="checkbox" id="{{ member[0] }}"><br>
+            {% endfor %}
+            <input type="button" value="Submit" onclick="storeContriIDNLoad()">
+        </form>
+        `
+    }
+    
 }
 
-var Contributers;
-function storePayeeIDNLoadNSubmit(){
-    const ParentDiv = document.querySelector("#AddEventDiv");
-    var checked = document.querySelectorAll('input[type="checkbox"]:checked');
-    if(checked.length==0)alert("Select atleast one Payee");
+var ContributersID;
+var ContributersName;
+
+function storeContriIDNLoad(){
+    const ParentForm = document.querySelector("#AddEventDiv form");
+    var checked = document.querySelectorAll('#AddEventDiv input[type="checkbox"]:checked');
+    if(checked.length==0)alert("Select atleast one Contributer");
     else{
-        Contributers = Array.from(checked).map(function(option){
+        ContributersID = Array.from(checked).map(function(option){
             return option.id;
         });
-        // console.log("Contributers: "+ Contributers);
-        ParentDiv.innerHTML=`
-        <button type="button" onclick="loadForm1()">Add Entry</button>
-        `
-        // console.log("entry recorded")
-        alert("Expense Recorded in Database");
+        ContributersName = Array.from(checked).map(function(option){
 
-        const entry= new FormData();
-        entry.append("")
-
-        fetch('/add_expense',{
-            method:'POST',
-            body: entry
+            return document.querySelector('label[for="' + option.id + '"]').textContent;
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
+        // console.log("ContributersID: "+ ContributersID);
+        // console.log("ContributersName: "+ ContributersName);
+        
+        
+        ParentForm.innerHTML="";
+        ContributersName.forEach(function(item){
+            const label = document.createElement('label');
+            label.textContent = item;
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.name = item;
+            input.required = true;
+            ParentForm.appendChild(label);
+            ParentForm.appendChild(input);
+            ParentForm.append(document.createElement("br"));
+        })
+        const Submit = document.createElement('input');
+        Submit.type = 'button';
+        Submit.value = 'Submit';
+        Submit.addEventListener("click",storeContriAmountNloadNsubmit)
+        ParentForm.appendChild(Submit);
     }
+}
+
+var ContributersAmount;
+
+function storeContriAmountNloadNsubmit(){
+
+    var amount = document.querySelectorAll('#AddEventDiv input[type="number"]')
+    ContributersAmount = Array.from(amount).map(function(option){
+        return option.value;
+    })
+    // console.log("Amount for contributers: " + ContributersAmount)
+
+    const ParentDiv = document.querySelector("#AddEventDiv");
+    ParentDiv.innerHTML=`
+    <button type="button" onclick="loadForm1()">Add Entry</button>
+    `
+    console.log("entry recorded")
+    alert("Expense Recorded in Database");
+
+    const entry= new FormData();
+    entry.append("PayeeID",PayeeID);
+    entry.append("Amount",amount);
+    entry.append("ContriID",ContributersID);
+    entry.append("ContriAmt",ContributersAmount);
+    entry.append("ExpDate",Math.floor(Date.now() / 1000));//UnixTimeStamp
+    entry.append("ExpName",ExpName);
+    entry.append("GrpID",GrpID);
+
+    fetch('/add_expense',{
+        method:'POST',
+        body: entry
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+    
+
 }

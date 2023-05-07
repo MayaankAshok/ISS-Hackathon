@@ -1,25 +1,28 @@
 <form>
-    <label for="option1">Option 1</label>
+    <label for="option1"> 1</label>
     <input type="checkbox" id="option1" ><br>
-    <label for="option2">Option 2</label>
+    <label for="option2"> 2</label>
     <input type="checkbox" id="option2" ><br>
-    <label for="option3">Option 3</label>
+    <label for="option3"> 3</label>
     <input type="checkbox" id="option3"><br>
-    <input type="button" value="Submit">
+    <input type="button" value="Submit" onclick="Fun()">
   </form>
   
   <script>
-    var selectedOptions = [];
-    document.querySelector('form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      var checkedOptions = document.querySelectorAll('input[type="checkbox"]:checked');
-      if(checkedOptions.length==0)alert("select atleast one payee");
+    function Fun(){
+      var checked = document.querySelectorAll('input[type="checkbox"]:checked');
+      if(checked.length==0)alert("Select atleast one Payee");
       else{
-        selectedOptions = Array.from(checkedOptions).map(function(option) {
-            return option.id;
-        });
-        console.log("Selected options: " + selectedOptions);
+          var ContributersID = Array.from(checked).map(function(option){
+              return option.id;
+          });
+          var ContributersName = Array.from(checked).map(function(option){
+
+            return document.querySelector('label[for="' + option.id + '"]').textContent;
+          })
+          console.log("ContributersID: "+ ContributersID);
+          console.log("ContributersName: "+ ContributersName);
         }
-    });
+    }
   </script>
   
