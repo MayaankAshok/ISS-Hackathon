@@ -78,7 +78,7 @@
                     // labels: ['Jan 01', 'Jan 02', 'Jan 03', 'Jan 04', 'Jan 05', 'Jan 06', 'Jan 07'],
                     labels : [
                         {% for date in dates %}
-                        {{date}},
+                        "{{date}}",
                         {% endfor %}
                     ],
                     //keep all the dates that are in the graph in this list

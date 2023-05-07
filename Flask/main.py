@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_from_directory, request, redirect
 import sqlite3  
+import datetime
 
 class DBclass:
     def __init__(self, path):
@@ -10,6 +11,8 @@ class DBclass:
         self.cur.execute(query)
         return self.cur.fetchall()
 db = DBclass("Flask/database.db")
+
+currentuserid = -1
 
 def get_compressed():
     # Contri'd expenses
@@ -303,6 +306,7 @@ def dashboard_page() -> str:
     for id, data in data1_dict.values():
         record_type = 'expense'
         record_date = data[1]
+        record_date = datetime.datetime.utcfromtimestamp(int(record_date)).strftime('%Y-%m-%d')
         record_group = data[0]
         amt = -data[2]
         if id in data2_dict.keys():
@@ -319,8 +323,9 @@ def dashboard_page() -> str:
     
     remaining_debt=  get_compressed()
 
-    (dates, credits, debits) = get_timeline(user_id)
-
+    [dates, credits, debits] = get_timeline(user_id)
+    for i in range(len(dates)):
+        dates[i] = datetime.datetime.utcfromtimestamp(int(dates[i])).strftime('%Y-%m-%d')
     print(get_timeline(user_id))
 
     return render_template("/DashboardPage/dashboard.html", 
@@ -386,7 +391,7 @@ def user_signup():
     db.execute(f'INSERT INTO user (name, phone, email, passw) VALUES ( "{user_name}", "{user_phone}", "{user_email}", "{user_passw}");')
     db.db.commit()
     user = db.execute(f'SELECT * FROM user WHERE phone="{user_phone}";')[0]
-
+    currentuserid = user[0]
     return redirect(f"DashboardPage/dashboard.html?id={user[0]}")
 
 @app.route("/user_login", methods = ["POST"])
@@ -405,6 +410,7 @@ def user_login():
         return render_template("LoginPage/login.html", error_code= "Wrong Password")
 
     user_id = users[0][0]
+    currentuserid = user_id
     return redirect(f'ProfilePage/profile.html?id={user_id}')    
 
 @app.route("/add_expense", methods = ["POST"])
