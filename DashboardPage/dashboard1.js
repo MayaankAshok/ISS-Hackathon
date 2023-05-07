@@ -103,7 +103,6 @@ function storeContriIDNLoad(){
 }
 
 var ContributersAmount;
-
 function storeContriAmountNloadNsubmit(){
 
     var amount = document.querySelectorAll('#AddEventDiv input[type="number"]')
@@ -137,4 +136,50 @@ function storeContriAmountNloadNsubmit(){
     .catch(error => console.error(error));
     
 
+}
+
+function loadForm2(){
+    const ParentDiv = document.querySelector("#AddPaymentDiv")
+    ParentDiv.innerHTML=`
+    <form>
+        <label for="amount">Enter the amount:</label>
+        <input type="number" id="amount" name="amount" required><br>
+        <input type="button" value="Next" onclick="storeAmountNLoad2()">
+    </form>
+    `    
+}
+
+function storeAmountNLoad2() {
+    const ParentDiv = document.querySelector("#AddEventDiv");
+    amount = document.querySelector("#AddEventDiv #amount").value;
+    // console.log("The amount entered is: " + amount);
+    ParentDiv.innerHTML=`
+    <form >
+        {% for group in groups %}
+        <label for="{{ group[0] }}">{{ group[1] }}</label>
+        <input type="radio" id="{{ group[0] }}" name="_"><br>
+        {% endfor %}
+        <input type="button" value="Next" onclick="storeGrpIDNLoad2()">
+    </form>
+    `
+}
+
+function storeGrpIDNLoad2(){
+    const ParentDiv = document.querySelector("#AddEventDiv");
+    var selected = document.querySelector('#AddEventDiv input[type="radio"]:checked');
+    if(selected.length==0) alert("Select atleast one group");
+    else{
+        GrpID = selected.id;
+        // console.log("Selected grp: " + GrpID);
+        ParentDiv.innerHTML=`
+        <form>
+            {% for member in groups[2] %}
+            <label for="{{ member[0] }}">{{ member[1] }}</label>
+            <input type="checkbox" id="{{ member[0] }}"><br>
+            {% endfor %}
+            <input type="button" value="Submit" onclick="store">
+        </form>
+        `
+    }
+    
 }
