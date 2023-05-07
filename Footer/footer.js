@@ -20,7 +20,7 @@ fetch('/Footer/footer.html')
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting && !isTyping) {
             isTyping = true;
-            const interval = setInterval(type, 100);
+            const interval = setInterval(type, 120);
             document.getElementById("WebName").style.opacity = 1;
         }
     });

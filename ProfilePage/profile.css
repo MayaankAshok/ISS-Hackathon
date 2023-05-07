@@ -1,28 +1,114 @@
-* {
-    box-sizing: border-box;
-}
-body{
-    background-color: #5f5e5e;
-}
-.profile-data{
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+  }
+  
+  .profile-container {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
+    top:4.5em;
     padding: 5em;
+  }
+  
+  .profile-data {
     display: flex;
-}
-.profile-image{
-    flex: auto;
-}
-.profile-image img{
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    /* padding: 1em; */
+  }
+  
+  .profile-image img {
     width: 20em;
     border-radius: 50%;
-}
-.data{
-    flex:50%;
-    font-size: 1.1em;
-    font-weight: 10px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    color: tomato;
-}
-.data-value{
-    padding: 1em;
-}
+    padding: 2em;
+
+  }
+  
+  .data {
+    margin-left: 50px;
+    padding: 2em;
+
+  }
+  
+  .data-value h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  /* Expense data styles */
+  .expense-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+
+  }
+  
+  .due-amount {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 2em;
+
+  }
+  
+  .due-amount h1 {
+    font-size: 24px;
+    margin: 0;
+    padding: 2em;
+
+  }
+  
+  .groups h1,
+  .past-expenses h1 {
+    font-size: 24px;
+    margin: 0;
+    padding: 2em;
+
+  }
+  
+  .group,
+  .exp {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .group li,
+  .exp li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    
+  }
+  
+  /* Canvas styles */
+  canvas {
+    border: 1px solid black;
+    border-radius: 50%;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-data {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .profile-image img {
+      margin-bottom: 20px;
+    }
+  
+    .data {
+      margin-left: 0;
+      text-align: center;
+    }
+  
+    .due-amount {
+      margin-bottom: 20px;
+    }
+  }
+  

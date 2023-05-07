@@ -19,7 +19,7 @@ function storeNameNLoad(){
     const ParentDiv = document.querySelector("#AddEventDiv");
     ParentDiv.innerHTML=`
     <form>
-        <label for="amount">Enter the amount:</label>
+        <label for="amount">Enter the Amount(in $):</label>
         <input type="number" id="amount" name="amount" required><br>
         <input type="button" value="Next" onclick="storeAmountNLoad()">
     </form>
@@ -107,7 +107,7 @@ function loadForm2(){
     const ParentDiv = document.querySelector("#AddPaymentDiv")
     ParentDiv.innerHTML=`
     <form>
-        <label for="amount">Enter the Amount Paid:</label>
+        <label for="amount">Enter the Amount Paid(in $):</label>
         <input type="number" id="amount" name="amount" required><br>
         <input type="button" value="Next" onclick="storeAmountNLoad2()">
     </form>

@@ -17,6 +17,10 @@
             ]],
             {% endfor %}
         ];
+        console.log("Data Loaded: "+ groups);
+    </script>
+    <script>
+        PayeeID = "{{ payeeID }}";
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js" type="text/javascript"></script>
     
@@ -35,7 +39,7 @@
                 <button type="button" onclick="loadForm2()">Add Payment</button>
             </div>
         </div>
-        <center><h1 style="font-size: 3rem; margin-top: 15vh;">Your Monthly Expenses</h1></center>
+        <h1 style="font-size: 3rem; margin-top: 15vh;text-align: center;">Your Monthly Expenses</h1>
         <div style="width: 100%;"><canvas id="expensegraph" width="100vw" height="40vh"></canvas></div>
         <script>
             var ctx = document.getElementById('expensegraph').getContext('2d');
@@ -128,7 +132,4 @@
 
 <script src="/DashboardPage/dashboard.js"></script>
 
-<script>
-    PayeeID = "{{ payeeID }}";
-</script>
 </html>
