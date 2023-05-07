@@ -115,7 +115,7 @@ function storeContriAmountNloadNsubmit(){
     ParentDiv.innerHTML=`
     <button type="button" onclick="loadForm1()">Add Entry</button>
     `
-    console.log("entry recorded")
+    // console.log("entry recorded")
     alert("Expense Recorded in Database");
 
     const entry= new FormData();
@@ -139,10 +139,11 @@ function storeContriAmountNloadNsubmit(){
 }
 
 function loadForm2(){
+    // console.log("Paymnet record initiated");
     const ParentDiv = document.querySelector("#AddPaymentDiv")
     ParentDiv.innerHTML=`
     <form>
-        <label for="amount">Enter the amount:</label>
+        <label for="amount">Enter the Amount Paid:</label>
         <input type="number" id="amount" name="amount" required><br>
         <input type="button" value="Next" onclick="storeAmountNLoad2()">
     </form>
@@ -150,9 +151,9 @@ function loadForm2(){
 }
 
 function storeAmountNLoad2() {
-    const ParentDiv = document.querySelector("#AddEventDiv");
-    amount = document.querySelector("#AddEventDiv #amount").value;
-    // console.log("The amount entered is: " + amount);
+    const ParentDiv = document.querySelector("#AddPaymentDiv");
+    amount = document.querySelector("#AddPaymentDiv #amount").value;
+    console.log("The amount entered is: " + amount);
     ParentDiv.innerHTML=`
     <form >
         {% for group in groups %}
@@ -165,8 +166,8 @@ function storeAmountNLoad2() {
 }
 
 function storeGrpIDNLoad2(){
-    const ParentDiv = document.querySelector("#AddEventDiv");
-    var selected = document.querySelector('#AddEventDiv input[type="radio"]:checked');
+    const ParentDiv = document.querySelector("#AddPaymentDiv");
+    var selected = document.querySelector('#AddPaymentDiv input[type="radio"]:checked');
     if(selected.length==0) alert("Select atleast one group");
     else{
         GrpID = selected.id;
@@ -175,11 +176,40 @@ function storeGrpIDNLoad2(){
         <form>
             {% for member in groups[2] %}
             <label for="{{ member[0] }}">{{ member[1] }}</label>
-            <input type="checkbox" id="{{ member[0] }}"><br>
+            <input type="radio" id="{{ member[0] }} name="_"><br>
             {% endfor %}
-            <input type="button" value="Submit" onclick="store">
+            <input type="button" value="Submit" onclick="storeDebterIDNSubmitNLoad()">
         </form>
         `
     }
     
+}
+
+var debterID;
+function storeDebterIDNSubmitNLoad(){
+    const ParentDiv = document.querySelector("#AddPaymentDiv");
+    var selected = document.querySelector('#AddPaymentDiv input[type="radio"]:checked');
+    if(selected.length==0) alert("Select a Person");
+    else{
+        debterID = selected.id;
+        // console.log("Selected Debter: " + debterID);
+        ParentDiv.innerHTML=`
+        <button type="button" onclick="loadForm2()">Add Payment</button>
+        `
+        const entry= new FormData();
+        entry.append("usr1ID",PayeeID);
+        entry.append("usr2ID",debterID);
+        entry.append("amount",amount);
+        entry.append("PayDate",Math.floor(Date.now() / 1000));//UnixTimeStamp
+        entry.append("GrpID",GrpID);
+
+        fetch('/add_expense',{
+            method:'POST',
+            body: entry
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+
+    }
 }
