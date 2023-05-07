@@ -10,8 +10,8 @@ function loadForm1(){
         <input type="button" value="Next" onclick="storeNameNLoad()">
     </form>
     `    
+   document.querySelector("#AddPaymentDiv").style.display = "none";
 }
-
 var ExpName;
 function storeNameNLoad(){
     ExpName = document.querySelector("#AddEventDiv #expName").value;
@@ -25,7 +25,6 @@ function storeNameNLoad(){
     </form>
     `
 }
-
 var amount;
 function storeAmountNLoad() {
     const ParentDiv = document.querySelector("#AddEventDiv");
@@ -39,7 +38,6 @@ function storeAmountNLoad() {
     }
     ParentDiv.innerHTML += '<input type="button" value="Next" onclick="storeGrpIDNLoad()">'
 }
-
 var GrpID;
 function storeGrpIDNLoad(){
     const ParentDiv = document.querySelector("#AddEventDiv");
@@ -59,7 +57,6 @@ function storeGrpIDNLoad(){
     }
     
 }
-
 var ContributersID;
 var ContributersName;
 
@@ -82,6 +79,8 @@ function storeContriIDNLoad(){
         ParentDiv.innerHTML=`
         <button type="button" onclick="loadForm1()">Add Entry</button>
         `
+        document.querySelector("#AddPaymentDiv").style.display = "";
+
         console.log("entry recorded")
         alert("Expense Recorded in Database");
     
@@ -102,6 +101,7 @@ function storeContriIDNLoad(){
         .catch(error => console.error(error));
     }
 }
+
 function loadForm2(){
     console.log("Paymnet record initiated");
     const ParentDiv = document.querySelector("#AddPaymentDiv")
@@ -112,6 +112,8 @@ function loadForm2(){
         <input type="button" value="Next" onclick="storeAmountNLoad2()">
     </form>
     `    
+    document.querySelector("#AddEventDiv").style.display = "none";
+
 }
 
 function storeAmountNLoad2() {
@@ -157,6 +159,8 @@ function storeDebterIDNSubmitNLoad(){
         ParentDiv.innerHTML=`
         <button type="button" onclick="loadForm2()">Add Payment</button>
         `
+        document.querySelector("#AddEventDiv").style.display = "";
+
         alert("Payment Recorded in Database");
         const entry= new FormData();
         entry.append("usr1ID",PayeeID);
