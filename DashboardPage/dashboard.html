@@ -10,9 +10,9 @@
     <script>
         var groups = [
             {% for group in groups %}
-            [{{ group.0 }}, "{{ group.1|escapejs }}", [
+            [{{ group.0 }}, "{{ group.1}}", [
                 {% for member in group.2 %}
-                [{{ member.0 }}, "{{ member.1|escapejs }}"], 
+                [{{ member.0 }}, "{{ member.1 }}"], 
                 {% endfor %}
             ]],
             {% endfor %}
