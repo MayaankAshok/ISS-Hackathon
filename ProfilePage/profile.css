@@ -68,7 +68,7 @@ body {
     font-size: 24px;
     margin: 0;
     padding: 2em;
-
+    
   }
   
   .group,
@@ -76,13 +76,15 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+    
   }
   
   .group li,
   .exp li {
-    font-size: 16px;
+    font-size: 2.3rem;
     margin-bottom: 10px;
-    
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif !important;
   }
   
   /* Canvas styles */

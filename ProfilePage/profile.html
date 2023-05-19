@@ -37,9 +37,9 @@
             </div>
             <div class="groups">
                 <h1>Mutual Groups: </h1>
-                {%for grp in Groups%}
+                {%for grp in groups%}
                 <ul class="group">
-                    <li>{{ grp }}</li>
+                    <li >{{ grp[1] }}</li>
                 </ul>
                 {% endfor %}
                 <!-- table -->
