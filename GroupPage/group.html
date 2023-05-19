@@ -31,9 +31,7 @@
                     </div>
                     <div class="content">
                         <div class="sender">
-                            <form action='/ProfilePage/profile.html/?id=1&self_id=2'>
-                                <button type="submit">{{ record[2] }}</button>
-                            </form>
+                            <a href='/ProfilePage/profile.html?id={{ record[5] }}&self_id={{ id }}'>{{ record[2] }}</a>
                         </div>
                         <div class="request">
                             <span class="request-amount">${{ record[4] }}</span>
@@ -46,12 +44,12 @@
                     </div>
                 </div>
                 {% endfor %}
-                
+
 
             </div>
             <div class="peopleexpenses">
-                <div style="width: 30vw;"><canvas id="personsmoney" style="margin-top: 50px;" width="300px"
-                min-height: 300px;></canvas></div>
+                <div style="width: 30vw;"><canvas id="personsmoney" style="margin-top: 50px;" width="300px" min-height:
+                        300px;></canvas></div>
                 <script>
                     var ctx3 = document.getElementById('personsmoney').getContext('2d');
 
@@ -171,4 +169,5 @@
     </div>
 </body>
 <script id="replace_with_footer" src="/Footer/footer.js"></script>
+
 </html>

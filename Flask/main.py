@@ -362,7 +362,7 @@ def group_page() -> str:
     records = []
     for (payee_id, amt, name, date) in data2:
         date = datetime.datetime.utcfromtimestamp(int(date)).strftime('%b %d, %Y at %H:%2m%p')
-        records.append(['expense', date, user_dict[payee_id], name, amt])
+        records.append(['expense', date, user_dict[payee_id], name, amt, payee_id])
 
     for (id1, id2, date, amt) in data3:
         date = datetime.datetime.utcfromtimestamp(int(date)).strftime('%Y-%m-%d')
